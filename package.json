@@ -1,0 +1,24 @@
+{
+  "name": "geosoftproject",
+  "version": "1.0.0",
+  "description": "Willkommen zu Maxs und Fabians lustigen kleinem Geosoftwareabenteuer\r Have Fun :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mabu1994/GeosoftProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mabu1994/GeosoftProject/issues"
+  },
+  "homepage": "https://github.com/mabu1994/GeosoftProject#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.6.0"
+  }
+}

@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 const path =require('path');
 const app     = express();
 const port    = 3000;
-var val = require(".\\database\\dbValidators.js");
+var val = require(path.resolve(__dirname, "database", "dbValidators.js"));
 
 app.use('/database', express.static(__dirname + '\\database'));
 

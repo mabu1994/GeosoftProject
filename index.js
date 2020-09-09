@@ -7,7 +7,7 @@ var val = require(path.resolve(__dirname, "database", "dbValidators.js"));
 
 app.use('/database', express.static(__dirname + '\\database'));
 
-
+app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"/login.html"))});
 /**
  * Ein paar Testdatensätze für die users collection
  */

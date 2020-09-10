@@ -4,13 +4,28 @@ const path =require('path');
 const app     = express();
 const port    = 3000;
 
-var val = require(path.resolve(__dirname,"database","dbValidators.js"));
+var objectId = require('mongodb').ObjectId;
+var val = require(path.resolve(__dirname, "database", "dbValidators.js"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
+
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 app.use('/database', express.static(path.resolve(__dirname, 'database')));
+
 app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
-app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
+
+app.use('/registerSide',express.static(path.resolve(__dirname,"registerSide", "register.js")));
+
+
+app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"login.html"))});
+
+app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"))});
 
 /**
  * Ein paar Testdatensätze für die users collection
@@ -121,6 +136,35 @@ function createroutes(db){
 
 connectMongoDB();
 
+/**
+ * Neuen User erstellen
+ *
+ */
+app.post("/users", (req,res)=>{
+  console.log("create User");
+  console.log(JSON.stringify(req.body));
+  app.locals.db.collection('users').insertOne(req.body,(error,result)=>{
+    if(error){
+      console.dir(error);
+    }
+    res.json(result);
+  });
+});
+/**
+ * 
+ */
+app.get("/search",(req,res) => {
+
+  let id = req.query.id;
+  
+  console.log(req.query);
+  app.locals.db.collection('users').find({_id:new mongodb.ObjectID(id)}).toArray((error,result)=>{
+      if(error){
+          console.dir(error);
+      }
+      res.json(result);
+  });
+});
 
 app.get('/find',
   (req,res) => res.sendFile(path.resolve(__dirname,'findRoutes', 'findRoutes.html'))

@@ -2,20 +2,24 @@
  *
  *
  */
-function addUser(){
+async function addUser(){
     let userName = document.getElementById("uname").value;
     let userRole = $("#role").val();
-  
+
     var newuser = {
         _id: userName,
-        role: userRole
-    }
+        role: userRole,
+    };
     try{
-        postRequest(newuser)
+        postRequest(newuser);
         window.alert("Ihr Benutzerkonto wurde erstellt");
+        var logoutU = await logoutUser();
+        var changeU = await changeUser(newuser._id);
+        window.open("/find", "_self");
+
     }
     catch(e){
-        console.log(e)
+        console.log(e);
     }
 }
 
@@ -55,7 +59,7 @@ async function searchFile(){
     catch(e){
         console.log(e);
     }
-    
+
 }
 
 /**

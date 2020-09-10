@@ -8,11 +8,19 @@
 const userval = {
   $jsonSchema:{
     bsonType:"object",
-    required:["_id","role"],//Passwörter können hier noch hinzugefügt werden
+    required:["_id", "role", "trips", "active"],//Passwörter können hier noch hinzugefügt werden
     properties:{
         role:{
           enum:["admin","user","medical"],
           description: "can only be one of the enum values and is required"
+        },
+        trips: {
+          bsonType: "array",
+          description: "array of the trips taken by the user with _id object of that trip"
+        },
+        active:{
+          bsonType: "bool",
+          description: "wheter the user is online or not"
         }
     //Ein Array für die entsprechenden Fahrt Schlüssel folgt noch
     }

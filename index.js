@@ -173,11 +173,11 @@ app.post("/routes", (req,res)=>{
  *
  */
 app.get("/search",(req,res) => {
-
+  
   let id = req.query.id;
 
   console.log(req.query);
-  app.locals.db.collection('users').find({_id:new mongodb.ObjectID(id)}).toArray((error,result)=>{
+  app.locals.db.collection('users').find({_id:id}).toArray((error,result)=>{
       if(error){
           console.dir(error);
       }

@@ -3,7 +3,7 @@
  *
  */
 function addUser(userName){
-    //let userName = document.getElementById("uname").value;
+    let userName = document.getElementById("uname").value;
     let userRole = $("#role").val();
 
     

@@ -1,16 +1,16 @@
 /**
- * 
+ *
  *
  */
-function addUser(userName){
-    //let userName = document.getElementById("uname").value;
+function addUser(){
+    let userName = document.getElementById("uname").value;
     let userRole = $("#role").val();
-
+  
     var newuser = {
         _id: userName,
         role: userRole
     }
-    try{    
+    try{
         postRequest(newuser)
         window.alert("Ihr Benutzerkonto wurde erstellt");
     }
@@ -20,25 +20,25 @@ function addUser(userName){
 }
 
 /**
- * 
- * 
+ *
+ *
  */
 function postRequest(dat){
-    console.log(dat)
+    console.log(dat);
     return new Promise(function (res,rej){
         $.ajax({
             url: "/users",
             data: dat,
             type: "post",
 
-            success: function (result) {res(result)},
-            error: function (err) {console.log(err)}
-        })
-    })
+            success: function (result) {res(result);},
+            error: function (err) {console.log(err);}
+        });
+    });
 }
 /**
- * 
- * @param {*} input 
+ *
+ * @param {*} input
  */
 async function searchFile(){
     let input = document.getElementById("uname").value;
@@ -59,7 +59,7 @@ async function searchFile(){
 }
 
 /**
- * 
+ *
  */
 function searchRequest(input){
     console.log(input)

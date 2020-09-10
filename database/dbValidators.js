@@ -25,7 +25,7 @@ const userval = {
 const routeval ={
   $jsonSchema:{
     bsonType:"object",
-    required:["_id","geography","risk"],
+    required:["_id","risk"], //Geography vorerst raus
     additionalProperties: false,
     properties:{
         _id:{

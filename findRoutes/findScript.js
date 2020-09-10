@@ -5,14 +5,14 @@
  * wählen.
  */
 var hereKey = "OhdfY06Bw18h1Cwi7hsQNdhb7f8rJ2zvt9y-W3WiIrc"; //Den Here api key hier einfügen
-var currentPosition, stops;//Variablen für die Userposition und die nahen Stops
+var currentPosition, stops, currentLine;//Variablen für die Userposition und die nahen Stops
 
 //Limitation of the input date to the current date
 var today = new Date();
-console.log(today.toJSON()); 
+console.log(today.toJSON());
 today = today.toJSON().slice(0,10);
 $("#inputDate").attr("max", today);
-console.log($("#inputDate").val(), $("#inputTime").val());
+
 
 /**
  * Die Leaflet Karte wird initialisiert und mit einer Leaflet tile-Karte versehen.
@@ -106,7 +106,9 @@ function showStops(){
 
       for(var j = 0; j < stops[i].transports.length; j++){
         var lineName = stops[i].transports[j].name + " " + stops[i].transports[j].headsign;
-        var lineButton = "<button id=" + i + j + " onClick='chooseLine(" + i + j + ")'>" + lineName + "</button><br>";
+        var k = (1+i);
+        console.log(k);
+        var lineButton = "<button id=" + k + j + " onClick='chooseLine(" + k + j + ")'>" + lineName + "</button><br>";
         stopLines += lineButton;
       }
 
@@ -118,5 +120,37 @@ function showStops(){
 
 function chooseLine(line) {
     $("#selection").html("Ihre Route: " + $("#"+line).html());
-    console.log(line);
+    currentLine = $("#"+line).html();
+    console.log(line, $("#"+line).html());
+}
+
+function sendRoute() {
+  var date     = $("#inputDate").val(),
+      time     = $("#inputTime").val(),
+      jsonDate = date + "T" + time + ":00.000Z";
+
+  var newRoute = {
+    _id: {
+      line: currentLine,
+      time: jsonDate
+    },
+    risk:"niedrig"
+  };
+
+  postRoute(newRoute);
+}
+
+
+function postRoute(dat){
+    console.log(dat);
+    return new Promise(function (res,rej){
+        $.ajax({
+            url: "/routes",
+            data: dat,
+            type: "post",
+
+            success: function (result) {res(result);},
+            error: function (err) {console.log(err);}
+        });
+    });
 }

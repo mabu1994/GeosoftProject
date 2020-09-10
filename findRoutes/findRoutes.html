@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta charset="utf-8">
   <head>
-    <title>Choose your route</title>
-    <link rel="stylesheet" type="text/css" href="public/htmlStyle.css">
+    <title>Wählen Sie ihre Route</title>
+    <link rel="stylesheet" href="leaflet/dist/leaflet.css">
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="public/htmlStyle.css">
+    <link rel="stylesheet" href="findRoutes/findStyle.css">
   </head>
   <body>
-    <h1>Choose your route</h1>
+    <h1>Wählen Sie ihre Route</h1>
+    <div id="choosenRoute">
+      <p id="selection">Kleiner lustiger Testspruch</p>
+      <input id="inputDate" type="date" min="2020-01-01">
+      <input id="inputTime" type="time">
+    </div>
+    <button onClick="getLocation()">Locate</button>
+    <div id="mapContainer"></div>
   </body>
+  <script src="findRoutes/leafletSymbol.js"></script>
+  <script src="findRoutes/findScript.js"></script>
 </html>

@@ -1,0 +1,27 @@
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+
+#mapContainer{
+  width: 640px;
+  height: 480px;
+  position:absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  padding: 20px;
+}
+
+#choosenRoute{
+  position:relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  display:block;
+  padding:10px;
+}

@@ -8,7 +8,8 @@ var val = require(path.resolve(__dirname,"database","dbValidators.js"));
 app.use('/database', express.static(path.resolve(__dirname, 'database')));
 app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
-
+app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
+app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
 
 /**
  * Ein paar Testdatensätze für die users collection

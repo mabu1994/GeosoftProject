@@ -3,6 +3,7 @@ const mongodb = require('mongodb');
 const path =require('path');
 const app     = express();
 const port    = 3000;
+var objectId = require('mongodb').ObjectId;
 var val = require(path.resolve(__dirname, "database", "dbValidators.js"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -134,6 +135,21 @@ app.post("/users", (req,res)=>{
       console.dir(error);
     }
     res.json(result);
+  });
+});
+/**
+ * 
+ */
+app.get("/search",(req,res) => {
+
+  let id = req.query.id;
+  
+  console.log(req.query);
+  app.locals.db.collection('users').find({_id:new mongodb.ObjectID(id)}).toArray((error,result)=>{
+      if(error){
+          console.dir(error);
+      }
+      res.json(result);
   });
 });
 /**

@@ -2,8 +2,8 @@
  * 
  *
  */
-function addUser(){
-    let userName = document.getElementById("uname").value;
+function addUser(userName){
+    //let userName = document.getElementById("uname").value;
     let userRole = $("#role").val();
 
     
@@ -45,10 +45,12 @@ async function searchFile(){
     let input = document.getElementById("uname").value;
     try{
         let result = await searchRequest(input);
+        window.alert("Benutzername bereits vergeben!");
     }
     catch(e){
         console.log(e);
-        alert("Not Found")
+        //alert("Not Found")
+        addUser(input);
     }
 }
 

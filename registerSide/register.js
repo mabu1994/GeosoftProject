@@ -3,10 +3,9 @@
  *
  */
 function addUser(userName){
-    let userName = document.getElementById("uname").value;
+    //let userName = document.getElementById("uname").value;
     let userRole = $("#role").val();
 
-    
     var newuser = {
         _id: userName,
         role: userRole
@@ -44,14 +43,19 @@ function postRequest(dat){
 async function searchFile(){
     let input = document.getElementById("uname").value;
     try{
-        let result = await searchRequest(input);
-        window.alert("Benutzername bereits vergeben!");
+       let re = await searchRequest(input);
+       console.log(re);
+       if(re==0){
+           addUser(input);
+       }
+       else{
+           window.alert("Dieser Benutzername ist bereits vergeben!")
+       }
     }
     catch(e){
         console.log(e);
-        //alert("Not Found")
-        addUser(input);
     }
+    
 }
 
 /**

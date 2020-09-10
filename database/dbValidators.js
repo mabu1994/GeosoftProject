@@ -20,9 +20,9 @@ const userval = {
 };
 
 /**
- * Trips Validator im jsonschema Format
+ * routes Validator im jsonschema Format
  */
-const tripval ={
+const routeval ={
   $jsonSchema:{
     bsonType:"object",
     required:["_id","geography","risk"],
@@ -55,5 +55,5 @@ const tripval ={
 };
 
 //Export Anweisungen für Nutzung in index.js
-module.exports.tripval = tripval;
+module.exports.routeval = routeval;
 module.exports.userval = userval;

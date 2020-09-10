@@ -19,6 +19,8 @@
   "homepage": "https://github.com/mabu1994/GeosoftProject#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "leaflet": "^1.7.1",
     "mongodb": "^3.6.0"
   }
 }

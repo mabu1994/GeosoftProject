@@ -3,18 +3,30 @@ const mongodb = require('mongodb');
 const path =require('path');
 const app     = express();
 const port    = 3000;
+
 var objectId = require('mongodb').ObjectId;
 var val = require(path.resolve(__dirname, "database", "dbValidators.js"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
+
+app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
+
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
-app.use('/database', express.static(__dirname + '\\database'));
+
+app.use('/database', express.static(path.resolve(__dirname, 'database')));
+
+app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
+app.use('/public', express.static(path.resolve(__dirname, 'public')));
+app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
+
 app.use('/registerSide',express.static(path.resolve(__dirname,"registerSide", "register.js")));
+
+
 app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"login.html"))});
 
 app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"))});
+
 /**
  * Ein paar Testdatensätze für die users collection
  */
@@ -25,9 +37,9 @@ var startusers = [
 ];
 
 /**
- * Ein paar Testdatensätze für die trips collection
+ * Ein paar Testdatensätze für die routes collection
  */
-var starttrips = [
+var startroutes = [
   {"_id":{"line":"N80", "time": new Date()},"geography":{"location":"here"},"risk":"niedrig"},
   {"_id":{"line":"Testfahrt T2", "time":new Date()}, "geography":{}, risk:"hoch"}
 ];
@@ -36,7 +48,7 @@ var starttrips = [
 /**
  * connectMongoDB - Eine Funktion die eine Datenbank
  * namens geosoftproject schafft bzw. mit ihr verbindet
- * Gelichzeitig werden die collections users/trips geschaffen/ erneuert
+ * Gelichzeitig werden die collections users/routes geschaffen/ erneuert
  */
 async function connectMongoDB(){
     try{
@@ -44,7 +56,7 @@ async function connectMongoDB(){
         app.locals.db = await app.locals.dbConnection.db("geosoftproject"); //Creation of the database
         console.log("Using db: " + app.locals.db.databaseName);
         createUsers(app.locals.db);// Collection users
-        createTrips(app.locals.db);// Collection trips
+        createroutes(app.locals.db);// Collection routes
     }
     catch(error){// Falls die connection mal fehlschlägt
         console.dir(error);
@@ -63,7 +75,7 @@ async function connectMongoDB(){
  * @param  {type} db Die Mongo Datenbank in der die Collection erzeugt werden soll.
  */
 function createUsers(db){
-  //db.dropCollection('trips');
+  //db.dropCollection('routes');
     try{
       db.collection('users', {strict:true},
         function(error,collection)
@@ -91,28 +103,28 @@ function createUsers(db){
 
 
 /**
- * createTrips - Erzeugt eine Collection namens trips, falls diese noch nicht existiert
+ * createroutes - Erzeugt eine Collection namens routes, falls diese noch nicht existiert
  * Außerdem werden dabei ein validator gesetzt und die Testdatensätze geladen
  * Sonst wird sie geleert und mit den Testdatensätzen gefüllt und der validator geupdated
  *
  * @param  {type} db Die Mongo Datenbank in der die Collection erzeugt werden soll.
  */
-function createTrips(db){
+function createroutes(db){
     try{
-      db.collection('trips', {strict:true},
+      db.collection('routes', {strict:true},
         function(error,collection)
         {
           if(error)
           {
-            db.createCollection('trips',
-              {validator: val.tripval, validationLevel:"moderate"});
-            db.collection('trips').deleteMany();//Cleans the database
-            db.collection('trips').insertMany(starttrips);
+            db.createCollection('routes',
+              {validator: val.routeval, validationLevel:"moderate"});
+            db.collection('routes').deleteMany();//Cleans the database
+            db.collection('routes').insertMany(startroutes);
           }
           else{
-            db.collection('trips').deleteMany();//Cleans the database
-            db.command({collMod: 'trips',validator:val.tripval});//Refresh validator
-            db.collection('trips').insertMany(starttrips);
+            db.collection('routes').deleteMany();//Cleans the database
+            db.command({collMod: 'routes',validator:val.routeval});//Refresh validator
+            db.collection('routes').insertMany(startroutes);
           }
         });
     }
@@ -123,6 +135,7 @@ function createTrips(db){
 }
 
 connectMongoDB();
+
 /**
  * Neuen User erstellen
  *
@@ -152,6 +165,11 @@ app.get("/search",(req,res) => {
       res.json(result);
   });
 });
+
+app.get('/find',
+  (req,res) => res.sendFile(path.resolve(__dirname,'findRoutes', 'findRoutes.html'))
+);
+
 /**
  * Kleine Übersicht im Browser der users collection für Entwicklungszwecke
  */
@@ -165,10 +183,10 @@ app.get('/users', (req,res) => {
 });
 
 /**
- * Kleine Übersicht im Browser der trips collection für Entwicklungszwecke
+ * Kleine Übersicht im Browser der routes collection für Entwicklungszwecke
  */
-app.get('/trips', (req,res) => {
-    app.locals.db.collection('trips').find({}).toArray((error, result) => {
+app.get('/routes', (req,res) => {
+    app.locals.db.collection('routes').find({}).toArray((error, result) => {
         if(error){
             console.dir(error);
         }

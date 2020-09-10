@@ -7,6 +7,8 @@
 var hereKey = " "; //Den Here api key hier einfügen
 var currentPosition, stops, currentLine;//Variablen für die Userposition und die nahen Stops
 
+
+displayUser();
 //Limitation of the input date to the current date
 var today = new Date();
 console.log(today.toJSON());
@@ -139,7 +141,6 @@ function sendRoute() {
 
   postRoute(newRoute);
 }
-
 
 function postRoute(dat){
     console.log(dat);

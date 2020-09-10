@@ -11,11 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
-
-app.use('/node_modules', express.static(__dirname + '/node_modules'));
-
+app.use('/node_modules', express.static(path.resolve(__dirname , 'node_modules')));
+app.use('/currentUser', express.static(path.resolve(__dirname, 'currentUser')));
 app.use('/database', express.static(path.resolve(__dirname, 'database')));
-
 app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
@@ -31,9 +29,9 @@ app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"register
  * Ein paar Testdatensätze für die users collection
  */
 var startusers = [
-  {"_id":"Fabian", "role":"admin"},
-  {"_id":"Max", "role":"admin"},
-  {"_id":"Hans Wurst", role:"medical"}
+  {"_id":"Fabian", "role":"admin", "trips":[], "active":false},
+  {"_id":"Max", "role":"admin", "trips":[], "active":false},
+  {"_id":"Hans Wurst", "role":"medical", "trips":[], "active":false}
 ];
 
 /**
@@ -55,8 +53,8 @@ async function connectMongoDB(){
         app.locals.dbConnection = await mongodb.MongoClient.connect("mongodb://localhost:27017/geosoftproject", {useNewUrlParser: true, useUnifiedTopology: true});
         app.locals.db = await app.locals.dbConnection.db("geosoftproject"); //Creation of the database
         console.log("Using db: " + app.locals.db.databaseName);
-        createUsers(app.locals.db);// Collection users
-        createroutes(app.locals.db);// Collection routes
+        createCollection(app.locals.db, 'users', val.userval, startusers);// Collection users
+        createCollection(app.locals.db, 'routes',val.routeval, startroutes);// Collection routes
     }
     catch(error){// Falls die connection mal fehlschlägt
         console.dir(error);
@@ -74,57 +72,24 @@ async function connectMongoDB(){
  *
  * @param  {type} db Die Mongo Datenbank in der die Collection erzeugt werden soll.
  */
-function createUsers(db){
+function createCollection(db, cName, cVal, cData){
   //db.dropCollection('routes');
     try{
-      db.collection('users', {strict:true},
+      db.collection(cName, {strict:true},
         function(error,collection)
         {
           if(error)
           {
-            db.createCollection('users',
-              {validator: val.userval, validationLevel:"moderate"});
-            db.collection('users').deleteMany();//Cleans the database
-            db.collection('users').insertMany(startusers);
+            db.createCollection(cName,
+              {validator: cVal, validationLevel:"moderate"});
+            db.collection(cName).deleteMany();//Cleans the database
+            db.collection(cName).insertMany(cData);
           }
           else{
             console.log('No new user setup');
-            db.collection('users').deleteMany();//Cleans the database
-            db.command({collMod: 'users',validator:val.userval});//Refresh validator
-            db.collection('users').insertMany(startusers);
-          }
-        });
-    }
-
-    catch(error){
-        console.dir(error);
-    }
-}
-
-
-/**
- * createroutes - Erzeugt eine Collection namens routes, falls diese noch nicht existiert
- * Außerdem werden dabei ein validator gesetzt und die Testdatensätze geladen
- * Sonst wird sie geleert und mit den Testdatensätzen gefüllt und der validator geupdated
- *
- * @param  {type} db Die Mongo Datenbank in der die Collection erzeugt werden soll.
- */
-function createroutes(db){
-    try{
-      db.collection('routes', {strict:true},
-        function(error,collection)
-        {
-          if(error)
-          {
-            db.createCollection('routes',
-              {validator: val.routeval, validationLevel:"moderate"});
-            db.collection('routes').deleteMany();//Cleans the database
-            db.collection('routes').insertMany(startroutes);
-          }
-          else{
-            db.collection('routes').deleteMany();//Cleans the database
-            db.command({collMod: 'routes',validator:val.routeval});//Refresh validator
-            db.collection('routes').insertMany(startroutes);
+            db.collection(cName).deleteMany();//Cleans the database
+            db.command({collMod: cName,validator:cVal});//Refresh validator
+            db.collection(cName).insertMany(cData);
           }
         });
     }
@@ -143,7 +108,12 @@ connectMongoDB();
 app.post("/users", (req,res)=>{
   console.log("create User");
   console.log(JSON.stringify(req.body));
-  app.locals.db.collection('users').insertOne(req.body,(error,result)=>{
+  app.locals.db.collection('users').insertOne({
+    _id:    req.body._id,
+    role:   req.body.role,
+    trips:  [],
+    active: false
+  },(error,result)=>{
     if(error){
       console.dir(error);
     }
@@ -173,7 +143,7 @@ app.post("/routes", (req,res)=>{
  *
  */
 app.get("/search",(req,res) => {
-  
+
   let id = req.query.id;
 
   console.log(req.query);
@@ -181,9 +151,50 @@ app.get("/search",(req,res) => {
       if(error){
           console.dir(error);
       }
-      res.json(result);
+      res.send(result);
   });
 });
+
+
+app.get("/changeActive",
+  (req,res) => {
+    try{
+    let id = req.query.id;
+    console.log(req.query);
+
+    app.locals.db.collection('users').updateOne({_id:id},{$set:{active: true}});
+  }
+        catch(error){
+            console.dir(error);
+        }
+        console.log("Setting active user");
+        res.send("User is now online");
+  }
+);
+
+
+app.get("/getActive",(req,res) => {
+  console.log("Getting active user");
+  app.locals.db.collection('users').find({active:true}).toArray((error,result)=>{
+      if(error){
+          console.dir(error);
+      }
+      res.send(result);
+  });
+});
+
+app.get("/logoutActive",
+  (req,res) => {
+    try{
+    app.locals.db.collection('users').updateOne({active: true},{$set:{active: false}});
+  }
+        catch(error){
+            console.dir(error);
+        }
+        console.log("Logging out active user");
+        res.send("User is logged out.");
+  }
+);
 
 app.get('/find',
   (req,res) => res.sendFile(path.resolve(__dirname,'findRoutes', 'findRoutes.html'))

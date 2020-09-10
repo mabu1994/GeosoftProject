@@ -4,10 +4,16 @@ const path =require('path');
 const app     = express();
 const port    = 3000;
 var val = require(path.resolve(__dirname, "database", "dbValidators.js"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/database', express.static(__dirname + '\\database'));
+app.use('/registerSide',express.static(path.resolve(__dirname,"registerSide", "register.js")));
+app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"login.html"))});
 
-app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"/login.html"))});
+app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"))});
 /**
  * Ein paar Testdatensätze für die users collection
  */
@@ -116,8 +122,20 @@ function createTrips(db){
 }
 
 connectMongoDB();
-
-
+/**
+ * Neuen User erstellen
+ *
+ */
+app.post("/users", (req,res)=>{
+  console.log("create User");
+  console.log(JSON.stringify(req.body));
+  app.locals.db.collection('users').insertOne(req.body,(error,result)=>{
+    if(error){
+      console.dir(error);
+    }
+    res.json(result);
+  });
+});
 /**
  * Kleine Übersicht im Browser der users collection für Entwicklungszwecke
  */

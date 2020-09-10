@@ -41,7 +41,7 @@ var startusers = [
  */
 var startroutes = [
   {"_id":{"line":"N80", "time": new Date()},"geography":{"location":"here"},"risk":"niedrig"},
-  {"_id":{"line":"Testfahrt T2", "time":new Date()}, "geography":{}, risk:"hoch"}
+  {"_id":{"line":"Testfahrt T2", "time":new Date()}, risk:"hoch"}
 ];
 
 
@@ -150,13 +150,32 @@ app.post("/users", (req,res)=>{
     res.json(result);
   });
 });
+
+
+app.post("/routes", (req,res)=>{
+  console.log("create Route");
+  console.log(JSON.stringify(req.body._id));
+  app.locals.db.collection('routes').insertOne({
+    _id: {
+      line: req.body._id.line,
+      time: new Date(req.body._id.time)
+    },
+    risk: req.body.risk
+  },(error,result)=>{
+    if(error){
+      console.dir(error);
+    }
+    res.json(result);
+  });
+});
+
 /**
- * 
+ *
  */
 app.get("/search",(req,res) => {
 
   let id = req.query.id;
-  
+
   console.log(req.query);
   app.locals.db.collection('users').find({_id:new mongodb.ObjectID(id)}).toArray((error,result)=>{
       if(error){

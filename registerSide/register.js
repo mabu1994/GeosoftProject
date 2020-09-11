@@ -5,7 +5,6 @@
 async function addUser(){
     let userName = document.getElementById("uname").value;
     let userRole = $("#role").val();
-
     var newuser = {
         _id: userName,
         role: userRole,
@@ -40,6 +39,7 @@ function postRequest(dat){
         });
     });
 }
+
 /**
  *
  * @param {*} input
@@ -53,7 +53,7 @@ async function searchFile(){
            addUser(input);
        }
        else{
-           window.alert("Dieser Benutzername ist bereits vergeben!")
+           window.alert("Dieser Benutzername ist bereits vergeben!");
        }
     }
     catch(e){

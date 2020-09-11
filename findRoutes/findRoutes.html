@@ -4,18 +4,25 @@
     <title>Wählen Sie ihre Route</title>
     <link rel="stylesheet" href="leaflet/dist/leaflet.css">
     <script src="jquery/dist/jquery.min.js"></script>
+    <script src="currentUser/currentUser.js"></script>
     <script src="leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="public/htmlStyle.css">
     <link rel="stylesheet" href="findRoutes/findStyle.css">
   </head>
   <body>
     <h1>Wählen Sie ihre Route</h1>
+    <div id="#userInfo">
+      <p id="user"></p>
+      <button onClick="backToLogin()">Abmelden</button>
+    </div>
     <div id="choosenRoute">
       <p id="selection">Kleiner lustiger Testspruch</p>
       <input id="inputDate" type="date" min="2020-01-01">
       <input id="inputTime" type="time">
+      <button onClick="getLocation()">Lokalisieren</button>
+      <button onClick="sendRoute()">Speichern</button>
     </div>
-    <button onClick="getLocation()">Locate</button>
+
     <div id="mapContainer"></div>
   </body>
   <script src="findRoutes/leafletSymbol.js"></script>

@@ -5,11 +5,11 @@
  * wählen.
  */
 var hereKey = "OhdfY06Bw18h1Cwi7hsQNdhb7f8rJ2zvt9y-W3WiIrc"; //Den Here api key hier einfügen
-var currentPosition, stops, currentLine;//Variablen für die Userposition und die nahen Stops
+var currentPosition, stops, currentStop, currentLine;//Variablen für die Userposition und die nahen Stops
 
 
 displayUser();
-//Limitation of the input date to the current date
+//Limitation der Datumeingabe auf das aktuelle Datum
 var today = new Date();
 console.log(today.toJSON());
 today = today.toJSON().slice(0,10);
@@ -75,14 +75,13 @@ function showPosition(position) {
   map.flyTo([position.coords.latitude, position.coords.longitude], 15);
   currentPosition = L.marker([position.coords.latitude, position.coords.longitude]).addTo(markerGroup).addTo(map);
   currentPosition.bindPopup("Your Position.");
-  showStops();
+  showStops();//Stops in der Nähe werden geladen
 }
 
 
 /**
  * showStops - Die Funktion sendet eine ajax-Request an die here api und setzt
  * die zurückgebenen Haltestellen als marker auf der Karte um.
- *
  */
 function showStops(){
   var pos      = currentPosition.getLatLng();
@@ -110,43 +109,73 @@ function showStops(){
         var lineName = stops[i].transports[j].name + " " + stops[i].transports[j].headsign;
         var k = (1+i);
         console.log(k);
-        var lineButton = "<button id=" + k + j + " onClick='chooseLine(" + k + j + ")'>" + lineName + "</button><br>";
+        var lineButton = "<button id=" + k + j + " stop="+ i +" onClick='chooseLine(" + k + j + ")'>" + lineName + "</button><br>";
+        //Html Button wird als Rohtext erzeugt
         stopLines += lineButton;
       }
 
       curStop.bindPopup("<h3>" + stops[i].place.name + "</h3>" + stopLines);
+      //Popup erstellen
     }
     stopmarkers.addTo(map);
   });
 }
 
+/**
+ * chooseLine - Eine Funktion, die die aktuell gewählte Route in
+ * die entsprechenden Zwischenvariablen lädt.
+ *
+ * @param  {type} line Kennziffer der Linie und des Stops
+ */
 function chooseLine(line) {
-    $("#selection").html("Ihre Route: " + $("#"+line).html());
-    currentLine = $("#"+line).html();
+    $("#selection").html("Ihre Route: " + $("#"+line).html());//In Html wird die Linie angezeigt
+    var stopNumber = $("#"+line).attr("stop");
+    currentStop = stops[stopNumber];//Stop wird gespeichert
+    console.log(currentStop);
+    currentLine = $("#"+line).html();//Linie wird gespeichert
     console.log(line, $("#"+line).html());
 }
 
-function sendRoute() {
+/**
+ * sendRoute - Eine Funktion, die aktuell gewählte Route in die Routen Datenbank
+ * speichert. Gleichzeitig wird sie als Referenz im trips Attribut des aktuell
+ * aktiven Users.
+ */
+async function sendRoute() {
   var date     = $("#inputDate").val(),
       time     = $("#inputTime").val(),
-      jsonDate = date + "T" + time + ":00.000Z";
+      jsonDate = date + "T" + time + ":00.000Z";//Vorformatiertung des Datums
 
   var newRoute = {
     _id: {
       line: currentLine,
       time: jsonDate
     },
+    stop:{
+      name: currentStop.place.name,
+      location: currentStop.place.location
+    },
     risk:"niedrig"
   };
 
-  postRoute(newRoute);
+  var pRoute      = await postRoute(newRoute, "/routes");
+  var routeToUser = await postRoute(newRoute, "/getActive");
 }
 
-function postRoute(dat){
+
+/**
+ * postRoute - Eine Funktion, die eine url und einen Datensatz entgegen nihmt und
+ * dann den Datensatz dort als Promise mit ajax Anfrage postet.
+ *
+ * @param  {object} dat  Der Datensatz, der gepostet werden soll
+ * @param  {string} pUrl Die Ziel url
+ * @return {Promise} Ein Promise, das die post ajax beinhaltet
+ */
+function postRoute(dat, pUrl){
     console.log(dat);
     return new Promise(function (res,rej){
         $.ajax({
-            url: "/routes",
+            url:  pUrl,
             data: dat,
             type: "post",
 

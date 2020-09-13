@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ihre Routen</title>
+    <link rel="stylesheet" href="leaflet/dist/leaflet.css">
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="currentUser/currentUser.js"></script>
+    <script src="leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="public/htmlStyle.css">
+    <link rel="stylesheet" href="public/mapStyle.css">
+  </head>
+  <body>
+      <h1>Ihre Routen</h1>
+      <div id="#userInfo">
+        <p id="user"></p>
+        <button onClick="backToLogin()">Abmelden</button>
+      </div>
+      <table id="mapTable">
+        <tr>
+          <td><iframe class="ifMap" scrolling="no" src="showRoutes/showMap.html"></iframe></td>
+        </tr>
+      </table>
+      <div id="stopTable"></div>
+  </body>
+  <script src="public/leafletSymbol.js"></script>
+  <script src="showRoutes/showTable.js"></script>
+</html>

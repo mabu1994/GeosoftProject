@@ -43,6 +43,30 @@ async function displayUser(){
   $("#user").html("Sie sind angemeldet als: " + cUser[0]._id);
 }
 
+
+/**
+ * tripsUser - Eine Funktion, die ein Array von Routen ids annihmt und die
+ * entsprechenden Routen Einträge aus der Datenbank als Promise zurückgibt.
+ *
+ * @param  {array} trips Ein array von _id Objekten im Schema der Routes DB
+ * @return {Promise} Promise mit den matchenden Route eintragen 
+ */
+function tripsUser(trips){
+  return new Promise(function (res,rej){
+      $.ajax({
+          url: "/tripsActive?trips=" + trips,
+          success: function (result) {res(result);},
+          error: function (err) {console.log(err);}
+      });
+  });
+}
+
+async function getUserTrips(){
+  var aUser  = await getUser();
+  var aTrips = await tripsUser(JSON.stringify(aUser[0].trips));
+  return aTrips;
+}
+
 /**
  * logoutUser - Eine Funktion, die einen Anufruf an den Server als Promise
  * startet, dass das aktive Konto auf inaktiv gesetzt wird.
@@ -60,9 +84,8 @@ function logoutUser(){
 }
 
 /**
- * backToLogin - description
- *
- * @return {type}  description
+ * backToLogin - Eine Funktion, die den akitven User auslogt und das Login-Fenster
+ * öffnet.
  */
 async function backToLogin(){
   var logout = await logoutUser();

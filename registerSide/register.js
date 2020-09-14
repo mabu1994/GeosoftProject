@@ -12,10 +12,7 @@ async function addUser(){
     try{
         postRequest(newuser);
         window.alert("Ihr Benutzerkonto wurde erstellt");
-        var logoutU = await logoutUser();
-        var changeU = await changeUser(newuser._id);
-        window.open("/find", "_self");
-
+        
     }
     catch(e){
         console.log(e);

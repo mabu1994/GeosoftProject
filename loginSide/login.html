@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <!--bootstrap script-->
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!--icons-->
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">  
+    <ul class="navbar-nav">
+  <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"></a>
+      <i class='glyphicon glyphicon-align-justify' style='font-size:36px'></i>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/">Main Page</a>
+        <a class="dropdown-item" href="editor">Pointeditor</a>
+        <a class="dropdown-item" href="impressum">Impressum</a> 
+        </div>
+      </li>
+      <li class="nav-item d-none d-sm-block">
+        <a class="nav-link" href="/">Main Page</a>
+      </li>
+      <li class="nav-item d-none d-sm-block">
+        <a class="nav-link" href="editor">Pointeditor</a>
+      </li>
+      <li class="nav-item d-none d-sm-block">
+        <a class="nav-link" href="impressum">Impressum</a>
+      </li>
+    </ul>
+  </div>
+  </nav>
+
+      <script src="jquery/dist/jquery.min.js"></script>
+      <script src="currentUser/currentUser.js"></script>
+      <link rel="stylesheet" href="public/htmlStyle.css">
+    </head>
+    <body>
+        <h1>MyCorona </h1>
+        <label for="uname">Username : </label>
+        <input type="text" id="uname" name="uname"><br><br>
+        <label for="kword">Keyword : </label>
+        <input type="text" id="kword" name="kword"><br><br>
+        <input type="button" value="Login" onClick="searchAcc()">Login
+    </body>
+    <script src="loginSide"></script>
+</html>

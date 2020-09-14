@@ -33,7 +33,7 @@ const userval = {
 const routeval ={
   $jsonSchema:{
     bsonType:"object",
-    required:["_id","risk"], //Geography vorerst raus
+    required:["_id","stop", "risk"],
     additionalProperties: false,
     properties:{
         _id:{
@@ -50,10 +50,20 @@ const routeval ={
             }
           }
         },
-        geography:{
-          bsonType:"object"
-          //Genaures zur geographischen Repräsentation folgt hier...
-        },
+        stop:{
+          bsonType:"object",
+          required:["name", "location"],
+          properties:{
+            name:{
+              bsonType: "string",
+              description:"Must be a string and is required"
+            },
+            location:{
+              bsonType: "object",
+              required:["lat", "lng"]
+              }
+            }
+          },
         risk:{
           enum:["niedrig", "mittel", "hoch"], //Auch möglich als boolean (dann aber type:boolean)
           description: "Must be a enum value and is required."

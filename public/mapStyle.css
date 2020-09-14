@@ -1,0 +1,55 @@
+#mapContainer{
+  width: 640px;
+  height: 480px;
+  position:relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  display:block;
+  padding:10px;
+}
+
+#choosenRoute{
+  position:relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  display:block;
+  padding:10px;
+}
+
+.ifMap{
+  height:500px;
+  width:650px;
+  border:none;
+}
+
+table{
+  position:relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  padding:10px;
+}
+
+th,td{
+  padding:0.35rem;
+}
+
+table.niceTable{
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+  width:45%;
+}
+
+table.niceTable th {
+  color: white;
+  background-color: #b30059;
+}
+
+table.niceTable tr:nth-child(odd) {
+  background-color: #dddddd;
+}

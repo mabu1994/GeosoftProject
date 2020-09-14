@@ -19,7 +19,7 @@ app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
 
 app.use('/registerSide',express.static(path.resolve(__dirname,"registerSide", "register.js")));
-
+app.use('/showRoutes', express.static(path.resolve(__dirname, 'showRoutes')));
 
 app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"login.html"))});
 
@@ -38,8 +38,8 @@ var startusers = [
  * Ein paar Testdatensätze für die routes collection
  */
 var startroutes = [
-  {"_id":{"line":"N80", "time": new Date()},"geography":{"location":"here"},"risk":"niedrig"},
-  {"_id":{"line":"Testfahrt T2", "time":new Date()}, risk:"hoch"}
+  {"_id":{"line":"N80", "time": new Date()},"stop":{"name":"halte","location":{"lat":22.0,"lng":23.0}},"risk":"niedrig"},
+  {"_id":{"line":"Testfahrt T2", "time":new Date()}, "stop":{"name":"halte","location":{"lat":29.0,"lng":23.0}}, "risk":"hoch"}
 ];
 
 
@@ -122,14 +122,20 @@ app.post("/users", (req,res)=>{
 });
 
 
+
+/**
+ * Die app nihmt den request body entgegen und speichert ihn als Objekt
+ * in der Routes Collection speichert.
+ */
 app.post("/routes", (req,res)=>{
   console.log("create Route");
-  console.log(JSON.stringify(req.body._id));
+  console.log(JSON.stringify(req.body));
   app.locals.db.collection('routes').insertOne({
     _id: {
       line: req.body._id.line,
       time: new Date(req.body._id.time)
     },
+    stop: req.body.stop,
     risk: req.body.risk
   },(error,result)=>{
     if(error){
@@ -156,6 +162,10 @@ app.get("/search",(req,res) => {
 });
 
 
+/**
+ * Die app findet in der Datenbank einem angegebenen User und setzt sein active
+ * Attribut auf 'true'.
+ */
 app.get("/changeActive",
   (req,res) => {
     try{
@@ -172,7 +182,10 @@ app.get("/changeActive",
   }
 );
 
-
+/**
+ * Die app findet alle user deren active Attribut auf true gesetzt werden und gibt
+ * sie als Array zurück.
+ */
 app.get("/getActive",(req,res) => {
   console.log("Getting active user");
   app.locals.db.collection('users').find({active:true}).toArray((error,result)=>{
@@ -183,6 +196,47 @@ app.get("/getActive",(req,res) => {
   });
 });
 
+/**
+ * Wenn auf /getActive etwas gepostet wird, wird die id Request im Trips
+ * des aktuellen Users gespeichert.
+ */
+app.post("/getActive", (req,res)=>{
+  console.log("Add Route to Users Routes");
+  console.log(JSON.stringify(req.body));
+  app.locals.db.collection('users').updateOne(
+    {active: true},
+    {$push: {trips: req.body._id}},
+    (error,result)=>{
+    if(error){
+      console.dir(error);
+    }
+    res.json(result);
+  });
+});
+
+
+/**
+ * Die trips des aktuellen Users werden als Array bei einer get Anfrage auf
+ * '/tripsActive' zurückgesendet  
+ */
+app.get("/tripsActive", (req,res) => {
+  var trips = JSON.parse(req.query.trips);
+  for(var i = 0; i<trips.length; i++){
+    trips[i].time = new Date(trips[i].time);//Datumskonversion
+  }
+  console.log(trips);
+  console.log("Getting active users trips");
+  app.locals.db.collection('routes').find({_id:{$in: trips}}).toArray((error,result)=>{
+      if(error){
+          console.dir(error);
+      }
+      res.json(result);
+  });
+});
+
+/**
+ * Die findet den user der aktiv ist und setzt das active attribut auf false.
+ */
 app.get("/logoutActive",
   (req,res) => {
     try{
@@ -198,6 +252,10 @@ app.get("/logoutActive",
 
 app.get('/find',
   (req,res) => res.sendFile(path.resolve(__dirname,'findRoutes', 'findRoutes.html'))
+);
+
+app.get('/show',
+  (req,res) => res.sendFile(path.resolve(__dirname,'showRoutes', 'showRoutes.html'))
 );
 
 /**

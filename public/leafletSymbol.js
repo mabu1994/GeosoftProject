@@ -4,6 +4,20 @@ var busIcon =
         iconSize:[17,17]
 });
 
+var redVirusIcon =
+  L.icon({
+      iconUrl: "/public/pictures/virus_red.svg",
+      iconSize:[27,27]
+});
+
+var yellowVirusIcon =
+  L.icon({
+      iconUrl: "/public/pictures/virus_yellow.svg",
+      iconSize:[27,27]
+});
+
+
+
 
 /**
  * colorRisk - Eine Funktion, die für die entsprechende Risikostufe der Fahrt
@@ -28,4 +42,26 @@ function colorRisk(risk){
     default:
     console.error("Diese Risikostufe ist nicht verfügbar");
   }
+}
+
+function iconRisk(trip){
+  switch(trip.risk){
+    case "niedrig":
+    return busIcon;
+    case "mittel":
+    return yellowVirusIcon;
+    case "hoch":
+    return redVirusIcon;
+    default:
+    console.error("Diese Risikostufe ist nicht verfügbar");
+  }
+}
+
+function riskSelection(number){
+  var sText = '<select name="risks" route=' + number +' id="risks'+ number +'">' +
+	            '<option value="niedrig" ' + colorRisk('niedrig') + '>Niedrig</option>' +
+              '<option value="mittel" '  + colorRisk('mittel') + '>Mittel</option>' +
+              '<option value="hoch" ' + colorRisk('hoch') + '>Hoch</span></option>' +
+              '</select> <button onClick=saveRisk("risks'+ number+'")>Speichern</button>';
+  return sText;
 }

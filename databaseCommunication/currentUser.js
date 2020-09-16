@@ -7,13 +7,7 @@
  */
 function changeUser(newUser){
     console.log(newUser);
-    return new Promise(function (res,rej){
-        $.ajax({
-            url: "/changeActive?id=" + newUser,
-            success: function (result) {res(result);},
-            error: function (err) {console.log(err);}
-        });
-    });
+    return ajaxGet("/changeActive?id=" + newUser);
 }
 
 /**
@@ -23,13 +17,7 @@ function changeUser(newUser){
  * @return {Promise} Promise mit ajax Aufruf an den Server "/getActive"
  */
 function getUser(){
-  return new Promise(function (res,rej){
-      $.ajax({
-          url: "/getActive",
-          success: function (result) {res(result);},
-          error: function (err) {console.log(err);}
-      });
-  });
+  return ajaxGet("/getActive");
 }
 
 /**
@@ -49,16 +37,10 @@ async function displayUser(){
  * entsprechenden Routen Einträge aus der Datenbank als Promise zurückgibt.
  *
  * @param  {array} trips Ein array von _id Objekten im Schema der Routes DB
- * @return {Promise} Promise mit den matchenden Route eintragen 
+ * @return {Promise} Promise mit den matchenden Route eintragen
  */
 function tripsUser(trips){
-  return new Promise(function (res,rej){
-      $.ajax({
-          url: "/tripsActive?trips=" + trips,
-          success: function (result) {res(result);},
-          error: function (err) {console.log(err);}
-      });
-  });
+  return ajaxGet("/tripsActive?trips=" + trips);
 }
 
 async function getUserTrips(){
@@ -74,13 +56,15 @@ async function getUserTrips(){
  * @return {Promise} Promise mit ajax Aufruf an den Server "/logoutActive"
  */
 function logoutUser(){
-  return new Promise(function (res,rej){
-      $.ajax({
-          url: "/logoutActive",
-          success: function (result) {res(result);},
-          error: function (err) {console.log(err);}
-      });
-  });
+  return ajaxGet("/logoutActive");
+}
+
+async function checkForMedical(){
+  var cUser = await getUser();
+  console.log(cUser[0].role);
+  if(cUser[0].role != "medical"){
+    window.open("/find","_self");
+  }
 }
 
 /**

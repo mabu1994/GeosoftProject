@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+  <script src="jquery/dist/jquery.min.js"></script>
   <!--Bootstrap-->
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
   <!--bootstrap script-->
@@ -9,7 +10,7 @@
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <!--Navbar-->
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container-fluid">  
+    <div class="container-fluid">
     <ul class="navbar-nav">
   <!-- Dropdown -->
     <li class="nav-item dropdown">
@@ -18,7 +19,7 @@
       <div class="dropdown-menu">
         <a class="dropdown-item" href="/">Main Page</a>
         <a class="dropdown-item" href="editor">Pointeditor</a>
-        <a class="dropdown-item" href="impressum">Impressum</a> 
+        <a class="dropdown-item" href="impressum">Impressum</a>
         </div>
       </li>
       <li class="nav-item d-none d-sm-block">
@@ -35,7 +36,8 @@
   </nav>
 
       <script src="jquery/dist/jquery.min.js"></script>
-      <script src="currentUser/currentUser.js"></script>
+      <script src="databaseCommunication/ajaxFunctions.js"></script>
+      <script src="databaseCommunication/currentUser.js"></script>
       <link rel="stylesheet" href="public/htmlStyle.css">
     </head>
     <body>
@@ -44,7 +46,7 @@
         <input type="text" id="uname" name="uname"><br><br>
         <label for="kword">Keyword : </label>
         <input type="text" id="kword" name="kword"><br><br>
-        <input type="button" value="Login" onClick="searchAcc()">Login
+        <input type="button" value="Login" onClick="searchAcc()">
     </body>
-    <script src="loginSide"></script>
+    <script src="loginSide/login.js"></script>
 </html>

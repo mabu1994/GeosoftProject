@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mabu1994/GeosoftProject#readme",
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",

@@ -3,7 +3,7 @@
  * angegbene Konto in der Datenbank existiert. Sollte dies nicht der Fall sein
  * wird der User benachrichtigt. Bei richtigen Login wird der Benutzer je nach
  * Rolle auf /find oder /medical geleitet. Dabei wird der neu einglogte User in
- * der Datenbank auf aktiv gesetzt.  
+ * der Datenbank auf aktiv gesetzt.
  *
  */
 async function searchAcc(){
@@ -29,8 +29,4 @@ async function searchAcc(){
     catch(e){
         console.log(e);
     }
-}
-
-function searchRequest(input){
- return ajaxGet("/search?id="+input);
 }

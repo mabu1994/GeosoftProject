@@ -17,7 +17,8 @@ app.use('/database', express.static(path.resolve(__dirname, 'database')));
 app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
-app.use('/loginSide', express.static(path.resolve(__dirname, 'loginSide')))
+app.use('/loginSide', express.static(path.resolve(__dirname, 'loginSide')));
+app.use('/config', express.static(path.resolve(__dirname, 'config.js')));
 
 app.use('/registerSide', express.static(path.resolve(__dirname,"registerSide", "register.js")));
 app.use('/showRoutes', express.static(path.resolve(__dirname, 'showRoutes')));
@@ -161,7 +162,9 @@ app.post("/routes", (req,res)=>{
 });
 
 /**
- *
+ * Eine get Anfrage mit einer id im Query auf "/search" gibt den enstrechenden
+ * Datensatz aus der users Collection als Array zurück (Leer falls es diesen
+ * nicht gibt).
  */
 app.get("/search",(req,res) => {
 
@@ -229,9 +232,14 @@ app.post("/getActive", (req,res)=>{
   });
 });
 
+/**
+ * Bei einer Post Anfrage auf "/riskByRoute" wird der RequestBody
+ * (_id:(line, time), risk) für ein Update Befehl auf der routes Collection,
+ * der den entsprechenden Datensatz auf das mitgegebene Risiko setzt.
+ */
 app.post("/riskByRoute", (req,res)=>{
   var body = req.body;
-  body._id.time = new Date(body._id.time);
+  body._id.time = new Date(body._id.time);//Datumskonversion
   console.log(req.body);
   console.log("Setting risk on" + JSON.stringify(body._id));
 
@@ -246,6 +254,14 @@ app.post("/riskByRoute", (req,res)=>{
   });
 });
 
+
+/**
+ * Bei einer Post Anfrage auf "/riskByUser" wird der  mit dem RequestBody
+ * (trips:[id:(line,time)],start, end, risk) ein Updatebefehl auf der routes
+ * Collection gestartet wird. Dabei werden Route geupdated, deren id in dem
+ * trips Array ist und zwischen dem Start- und Enddatum liegt. Das Risiko
+ * wird dann auf das des RequestBody gesetzt.  
+ */
 app.post("/riskByUser", (req,res)=>{
   var body   = req.body;
   for(var i = 0; i<body.trips.length; i++){

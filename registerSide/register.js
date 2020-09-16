@@ -1,6 +1,7 @@
+
 /**
- *
- *
+ * addUser - Eine Funktion, die einen neuen User in der user Collection anlegt
+ * mit den Daten aus dem Registrationsfenster.
  */
 async function addUser(){
     let userName = document.getElementById("uname").value;
@@ -10,36 +11,21 @@ async function addUser(){
         role: userRole,
     };
     try{
-        postRequest(newuser);
+        ajaxPost("/users",newuser);
         window.alert("Ihr Benutzerkonto wurde erstellt");
-        
+
     }
     catch(e){
         console.log(e);
     }
 }
 
-/**
- *
- *
- */
-function postRequest(dat){
-    console.log(dat);
-    return new Promise(function (res,rej){
-        $.ajax({
-            url: "/users",
-            data: dat,
-            type: "post",
-
-            success: function (result) {res(result);},
-            error: function (err) {console.log(err);}
-        });
-    });
-}
 
 /**
+ * searchFile - Eine Funktion, welche einen User durch addUser angelegt.
+ * Sie führt vorher eine Überprüfung auf Dopplung in der user Collection mit
+ * einem searchRequest Aufruf
  *
- * @param {*} input
  */
 async function searchFile(){
     let input = document.getElementById("uname").value;
@@ -47,7 +33,7 @@ async function searchFile(){
        let re = await searchRequest(input);
        console.log(re);
        if(re==0){
-           addUser(input);
+           addUser();
        }
        else{
            window.alert("Dieser Benutzername ist bereits vergeben!");
@@ -57,18 +43,4 @@ async function searchFile(){
         console.log(e);
     }
 
-}
-
-/**
- *
- */
-function searchRequest(input){
-    console.log(input)
-    return new Promise(function (res,rej){
-        $.ajax({
-            url: "/search?id=" + input,
-            success: function (result) {res(result)},
-            error: function (err) {console.log(err)}
-        });
-    })
 }

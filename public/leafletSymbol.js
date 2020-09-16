@@ -2,19 +2,19 @@ var busIcon =
     L.icon({
         iconUrl: "https://upload.wikimedia.org/wikipedia/commons/d/dd/Zeichen_224_-_Stra%C3%9Fenbahn-Haltestelle%2C_StVO_1970.svg",
         iconSize:[17,17]
-});
+});//Icon für risikolose Fahrten
 
 var redVirusIcon =
   L.icon({
       iconUrl: "/public/pictures/virus_red.svg",
       iconSize:[27,27]
-});
+});//Icon für mitelmäßig riskante Fahrten
 
 var yellowVirusIcon =
   L.icon({
       iconUrl: "/public/pictures/virus_yellow.svg",
       iconSize:[27,27]
-});
+});// Icon für hochriskante Fahrten
 
 
 
@@ -44,6 +44,14 @@ function colorRisk(risk){
   }
 }
 
+/**
+ * iconRisk - Eine Funktion, die für die entsprechende Risikostufe der Fahrt
+ * das Leaflet Icon mit korrespondierender Farbe zur Weiterverarbeitung
+ * zurückgegeben.
+ *
+ * @param  {string} risk Die Risikostufe als String (s. Validator für Routes)
+ * @return {L.icon} Ein Icon zur Weiterverarbeitung in den Karten
+ */
 function iconRisk(trip){
   switch(trip.risk){
     case "niedrig":
@@ -57,6 +65,13 @@ function iconRisk(trip){
   }
 }
 
+/**
+ * riskSelection - Eine Funktion, die ein nummeriertes Select HTML Element als
+ * Rohtext zurückgibt.
+ *
+ * @param  {number} number Die Nummer des aktuellen Select Elements zur Unterscheidung durch die Id
+ * @return {String}        Das Select Html Element als String
+ */
 function riskSelection(number){
   var sText = '<select name="risks" route=' + number +' id="risks'+ number +'">' +
 	            '<option value="niedrig" ' + colorRisk('niedrig') + '>Niedrig</option>' +

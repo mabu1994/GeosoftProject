@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Medizinische Übersicht</title>
+    <link rel="stylesheet" href="leaflet/dist/leaflet.css">
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="databaseCommunication/ajaxFunctions.js"></script>
+    <script src="databaseCommunication/currentUser.js"></script>
+    <script src="../databaseCommunication/riskRoutes.js"></script>
+    <script src="leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="public/htmlStyle.css">
+    <link rel="stylesheet" href="public/mapStyle.css">
+  </head>
+  <body>
+      <h1>Medizinische Übersicht</h1>
+      <div id="#userInfo">
+        <p id="user"></p>
+        <button onClick="backToLogin()">Abmelden</button>
+      </div>
+      <div id="timeAndUser">
+        <form>
+          <label for="username">Nutzer:</label>
+          <input id="username" name="username" type="text"></input>
+          <label for="startdate">Startdatum:</label>
+          <input id="startDate" name="startdate" type="date"></input>
+          <label for="startdate">Enddatum:</label>
+          <input id="endDate"  name="enddate" type="date"></input>
+          <label for="riskUser">Risiko:</label>
+          <select name="riskUser" id="riskUser">'
+            <option value="niedrig">Niedrig</option>
+            <option value="mittel">Mittel</option>
+            <option value="hoch">Hoch</span></option>
+          </select>
+          <button type="button" onClick="quarantine()">Markieren</button>
+        </form>
+      </div>
+      <table id="mapTable">
+        <tr>
+          <td><iframe id="medMap" class="ifMap" scrolling="no" src="medicalSide/medicalMap.html"></iframe></td>
+        </tr>
+      </table>
+      <button onClick="refreshRoutes()">&#128472;</button>
+      <div id="stopTable"></div>
+  </body>
+  <script src="public/leafletSymbol.js"></script>
+  <script src="medicalSide/medicalTable.js"></script>
+</html>

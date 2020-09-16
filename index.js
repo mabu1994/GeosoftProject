@@ -12,34 +12,49 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
 app.use('/node_modules', express.static(path.resolve(__dirname , 'node_modules')));
-app.use('/currentUser', express.static(path.resolve(__dirname, 'currentUser')));
+app.use('/databaseCommunication', express.static(path.resolve(__dirname, 'databaseCommunication')));
 app.use('/database', express.static(path.resolve(__dirname, 'database')));
 app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
+app.use('/loginSide', express.static(path.resolve(__dirname, 'loginSide')))
 
-app.use('/registerSide',express.static(path.resolve(__dirname,"registerSide", "register.js")));
+app.use('/registerSide', express.static(path.resolve(__dirname,"registerSide", "register.js")));
 app.use('/showRoutes', express.static(path.resolve(__dirname, 'showRoutes')));
+app.use('/medicalSide', express.static(path.resolve(__dirname,"medicalSide")));
 
-app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"login.html"))});
+app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"loginSide","login.html"))});
 
-app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"))});
+app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"));});
 
+app.get('/medical', (req,res) => {res.sendFile(path.resolve(__dirname,"medicalSide","medicalSide.html"));});
 /**
  * Ein paar Testdatensätze für die users collection
  */
 var startusers = [
-  {"_id":"Fabian", "role":"admin", "trips":[], "active":false},
+  {"_id":"Fabian", "role":"admin", "trips":[
+    {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},
+    {"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},
+    {"line":"Testfahrt T2", "time":new Date()}
+  ],
+   "active":false},
+  {"_id":"Fabian2", "role":"user", "trips":[
+    {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},
+    {"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},
+    {"line":"Testfahrt T2", "time":new Date()}
+  ],
+   "active":false},
   {"_id":"Max", "role":"admin", "trips":[], "active":false},
-  {"_id":"Hans Wurst", "role":"medical", "trips":[], "active":false}
+  {"_id":"Drosten", "role":"medical", "trips":[], "active":false}
 ];
 
 /**
  * Ein paar Testdatensätze für die routes collection
  */
 var startroutes = [
-  {"_id":{"line":"N80", "time": new Date()},"stop":{"name":"halte","location":{"lat":22.0,"lng":23.0}},"risk":"niedrig"},
-  {"_id":{"line":"Testfahrt T2", "time":new Date()}, "stop":{"name":"halte","location":{"lat":29.0,"lng":23.0}}, "risk":"hoch"}
+  {"_id":{"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},"stop":{"name":"halte","location":{"lat":52,"lng":8}},"risk":"niedrig"},
+  {"_id":{"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},"stop":{"name":"halte","location":{"lat":51.966727,"lng":7.619826}},"risk":"mittel"},
+  {"_id":{"line":"Testfahrt T2", "time":new Date()}, "stop":{"name":"halte","location":{"lat":51.5,"lng":7.5}}, "risk":"hoch"}
 ];
 
 
@@ -214,10 +229,51 @@ app.post("/getActive", (req,res)=>{
   });
 });
 
+app.post("/riskByRoute", (req,res)=>{
+  var body = req.body;
+  body._id.time = new Date(body._id.time);
+  console.log(req.body);
+  console.log("Setting risk on" + JSON.stringify(body._id));
+
+  app.locals.db.collection('routes').updateOne(
+    {_id: body._id},
+    {$set: {risk: body.risk}},
+    (error,result)=>{
+    if(error){
+      console.dir(error);
+    }
+    res.json(result);
+  });
+});
+
+app.post("/riskByUser", (req,res)=>{
+  var body   = req.body;
+  for(var i = 0; i<body.trips.length; i++){
+    body.trips[i].time = new Date(body.trips[i].time);//Datumskonversion
+  }
+  body.start = new Date(body.start);
+  body.end   = new Date(body.end);
+  console.log(req.body);
+  console.log("Setting risk on a user");
+
+  app.locals.db.collection('routes').updateMany(
+    {$and:[
+      {_id: {$in: body.trips}},
+      {"_id.time": {$gte: body.start}},
+      {"_id.time": {$lte: body.end}},
+    ]},
+    {$set: {risk: body.risk}},
+    (error,result)=>{
+    if(error){
+      console.dir(error);
+    }
+    res.json(result);
+  });
+});
 
 /**
  * Die trips des aktuellen Users werden als Array bei einer get Anfrage auf
- * '/tripsActive' zurückgesendet  
+ * '/tripsActive' zurückgesendet
  */
 app.get("/tripsActive", (req,res) => {
   var trips = JSON.parse(req.query.trips);

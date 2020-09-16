@@ -4,7 +4,7 @@
  * einzusehen. Von diesen Haltestellen kann der User dann seine Route und die Zeit
  * wählen.
  */
-var hereKey = ""; //Den Here api key hier einfügen
+var hereKey = config.HERE_KEY; //Den Here api key hier einfügen
 var currentPosition, stops, currentStop, currentLine;//Variablen für die Userposition und die nahen Stops
 
 

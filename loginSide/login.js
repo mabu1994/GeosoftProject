@@ -19,7 +19,14 @@ async function searchAcc(){
         var changeU = await changeUser(document.getElementById("uname").value);
         var activeU = await getUser();
         if(activeU[0].role == "user"){ // Userrollenabfrage
-          window.open("/find", "_self");
+          var trips = await getUserTrips();
+          console.log(checkForRisk(trips));
+          if(checkForRisk(trips) == true){
+            window.open("/warn", "_self");
+          }
+          else{
+            window.open("/find", "_self");
+          }
         }
         else if (activeU[0].role == "medical"){ // Userrollenabfrage
           window.open("/medical", "_self");

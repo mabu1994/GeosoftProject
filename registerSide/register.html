@@ -4,9 +4,47 @@
   <title>Registration</title>
   <link rel="icon" href="public/pictures/virus_white.svg">
   <script src="jquery/dist/jquery.min.js"></script>
+  
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <!--bootstrap script-->
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!--icons-->
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <script src="databaseCommunication/ajaxFunctions.js"></script>
   <script src="databaseCommunication/currentUser.js"></script>
   <link rel="stylesheet" href="public/htmlStyle.css">
+    
+  <!--Navbar-->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
+      <ul class="navbar-nav">
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class='fas fa-virus' style='font-size:36px'></i>
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="login">Login</a>
+        <a class="dropdown-item" href="impressum">Impressum</a>
+        <a class="dropdown-item" href="datenschutz">Datenschutz</a>
+
+        
+        </div>
+      </li>
+      <li class="nav-item d-none d-sm-block">
+        <a class="nav-link" href="login">Login</a>
+      </li>
+      <li class="nav-item d-none d-sm-block">
+        <a class="nav-link" href="impressum">Impressum</a>
+      </li>
+      <li class="nav-item d-none d-sm-block">
+        <a class="nav-link" href="datenschutz">Datenschutz</a>
+      </li>
+    
+    </ul>
+  </div>
+  </nav>
 </head>
     <body>
         <h1>MyCorona Registration</h1>

@@ -18,6 +18,7 @@ app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
 app.use('/loginSide', express.static(path.resolve(__dirname, 'loginSide')));
+app.use('/impressumSide', express.static(path.resolve(__dirname, 'impressumSide')));
 app.use('/config', express.static(path.resolve(__dirname, 'config.js')));//Sicherheitsbedenken!!!!
 app.use('/warnSite', express.static(path.resolve(__dirname, 'warnSite')));
 
@@ -30,6 +31,10 @@ app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"loginSide"
 app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"));});
 
 app.get('/medical', (req,res) => {res.sendFile(path.resolve(__dirname,"medicalSide","medicalSide.html"));});
+
+app.get('/impressum', (req,res)=> {res.sendFile(path.resolve(__dirname,"impressumSide","impressum.html"));});
+
+app.get('/datenschutz', (req,res)=> {res.sendFile(path.resolve(__dirname,"impressumSide","datenschutz.html"));});
 /**
  * Ein paar Testdatensätze für die users collection
  */

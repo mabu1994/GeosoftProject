@@ -2,7 +2,7 @@ checkForMedical();
 displayUser();
 medicalTable();
 
-var currentRoutes;
+var currentRoutes;//Zewischenspeicher für die aktuellen Routen
 /**
  * medicalTable - Die Trips des aktuellen Users werden als Tabelle angezeigt,
  * geordnet nach dem Datum der Fahrt.
@@ -41,11 +41,22 @@ function createTableData(trip, number){
   return dText;
 }
 
+/**
+ * refreshRoutes - Eine Funktion, die das iframe 'medMap' und die Tabelle Der
+ * Routen neulädt. Wird mit dem Refresh Button ausgelöst.
+ *
+ */
 function refreshRoutes(){
   document.getElementById('medMap').contentDocument.location.reload(true);
   medicalTable();
 }
 
+
+/**
+ * quarantine - Eine Funktion, die aus der "Markieren Reihe" des medicalSide.htmlStyle
+ * alles values nihmt, um daraus ein Anfrage Objekt für sendUserRoutes zu generieren.
+ *
+ */
 function quarantine(){
   var userDate = {
     _id: $("#username").val(),

@@ -84,3 +84,9 @@ function checkForRisk(trips){
   }
   return false;
 }
+
+//Wieder aus dem Streuselcake example aus dem Kurs entnohmen :)
+if(typeof exports == "undefined"){
+  var exports = window;
+}
+exports.checkForRisk = checkForRisk;

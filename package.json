@@ -4,7 +4,7 @@
   "description": "Willkommen zu Maxs und Fabians lustigen kleinem Geosoftwareabenteuer\r Have Fun :)",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
+    "test": "mocha",
     "start": "node index.js"
   },
   "repository": {
@@ -19,9 +19,12 @@
   "homepage": "https://github.com/mabu1994/GeosoftProject#readme",
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
+    "mocha": "^8.1.3",
     "mongodb": "^3.6.0"
   }
 }

@@ -66,3 +66,21 @@ async function saveRisk(htmlId){
   };
   var sendRisk = await changeRiskRoute(data);
 }
+
+
+/**
+ * checkForRisk - Eine Funktion, die ein boolschen Wert zurück gibt, ob der
+ * ein Array von Fahrten eine risikobehafte Fahrt beinhaltet oder nicht.
+ * Dabei wird das risk Attribut auf hoch oder mittel überptüft.
+ *
+ * @param  {type} trips Ein Array von fahrten
+ * @return {boolean}    description
+ */
+function checkForRisk(trips){
+  for(var i = 0; i < trips.length; i++){
+    if(trips[i].risk == "mittel"|| trips[i].risk == "hoch"){
+      return true;
+    }
+  }
+  return false;
+}

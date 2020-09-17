@@ -75,3 +75,14 @@ async function backToLogin(){
   var logout = await logoutUser();
   window.open("/login", "_self");
 }
+
+/**
+ * searchRequest - Funktion, die eine ajax Postanfrage an /search schickt, um
+ * ein user Datensatz zuerhalten.
+ *
+ * @param  {String} input Die id eines Users als String
+ * @return {object}       Datensatz aus der User Collection mit der entsprechenden Id
+ */
+function searchRequest(input){
+ return ajaxGet("/search?id="+input);
+}

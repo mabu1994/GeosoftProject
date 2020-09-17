@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Warnung: Corona-Alarm</title>
+    <link rel="icon" href="public/pictures/virus_white.svg">
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="databaseCommunication/ajaxFunctions.js"></script>
+    <script src="databaseCommunication/currentUser.js"></script>
+    <script src="databaseCommunication/riskRoutes.js"></script>
+    <script src="../databaseCommunication/riskRoutes.js"></script>
+    <script src="public/leafletSymbol.js"></script>
+    <link rel="stylesheet" href="public/htmlStyle.css">
+    <link rel="stylesheet" href="public/mapStyle.css">
+  </head>
+  <body>
+    <h1>
+      <img src="public/pictures/virus_red.svg" alt="Corona Virus in lovely red" height="50" width="50">
+      Warnung: Corona Alarm
+      <img src="public/pictures/virus_red.svg" alt="Corona Virus in lovely red" height="50" width="50">
+    </h1>
+    <div id="warnText" class="centerd">
+      <p>
+        <b>Achtung:</b> Einige Ihrer Fahrten wurden als Risiko markiert.<br>
+        Wenden Sie sich sofort an eine medizische Fachperson!<br>
+        Vermeiden Sie Kontakt so gut wie möglich!
+      </p>
+    </div>
+    <div id="warnRoutes">
+      <p>Folgende Fahrten wurden als Risiko markiert:</p>
+      <div id="warnTable"></div>
+    </div>
+  </body>
+  <script src="/warnSite/warn.js"></script>
+</html>

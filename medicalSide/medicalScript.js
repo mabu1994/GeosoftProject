@@ -1,4 +1,5 @@
-var currentRoutes;
+var currentRoutes;// Zwischenspeicher Variable für aktuelle Routen
+
 /**
  * Die Leaflet Karte wird initialisiert und mit einer Leaflet tile-Karte versehen.
  */

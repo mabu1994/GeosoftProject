@@ -19,7 +19,8 @@ app.use('/public', express.static(path.resolve(__dirname, 'public')));
 app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
 app.use('/loginSide', express.static(path.resolve(__dirname, 'loginSide')));
 app.use('/impressumSide', express.static(path.resolve(__dirname, 'impressumSide')));
-
+app.use('/config', express.static(path.resolve(__dirname, 'config.js')));//Sicherheitsbedenken!!!!
+app.use('/warnSite', express.static(path.resolve(__dirname, 'warnSite')));
 
 app.use('/registerSide', express.static(path.resolve(__dirname,"registerSide", "register.js")));
 app.use('/showRoutes', express.static(path.resolve(__dirname, 'showRoutes')));
@@ -48,8 +49,12 @@ var startusers = [
     {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},
     {"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},
     {"line":"Testfahrt T2", "time":new Date()}
-  ],
+    ],
    "active":false},
+   {"_id":"Fabian3", "role":"user", "trips":[
+     {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")}
+     ],
+    "active":false},
   {"_id":"Max", "role":"admin", "trips":[], "active":false},
   {"_id":"Drosten", "role":"medical", "trips":[], "active":false}
 ];
@@ -167,7 +172,9 @@ app.post("/routes", (req,res)=>{
 });
 
 /**
- *
+ * Eine get Anfrage mit einer id im Query auf "/search" gibt den enstrechenden
+ * Datensatz aus der users Collection als Array zurück (Leer falls es diesen
+ * nicht gibt).
  */
 app.get("/search",(req,res) => {
 
@@ -235,9 +242,14 @@ app.post("/getActive", (req,res)=>{
   });
 });
 
+/**
+ * Bei einer Post Anfrage auf "/riskByRoute" wird der RequestBody
+ * (_id:(line, time), risk) für ein Update Befehl auf der routes Collection,
+ * der den entsprechenden Datensatz auf das mitgegebene Risiko setzt.
+ */
 app.post("/riskByRoute", (req,res)=>{
   var body = req.body;
-  body._id.time = new Date(body._id.time);
+  body._id.time = new Date(body._id.time);//Datumskonversion
   console.log(req.body);
   console.log("Setting risk on" + JSON.stringify(body._id));
 
@@ -252,6 +264,14 @@ app.post("/riskByRoute", (req,res)=>{
   });
 });
 
+
+/**
+ * Bei einer Post Anfrage auf "/riskByUser" wird der  mit dem RequestBody
+ * (trips:[id:(line,time)],start, end, risk) ein Updatebefehl auf der routes
+ * Collection gestartet wird. Dabei werden Route geupdated, deren id in dem
+ * trips Array ist und zwischen dem Start- und Enddatum liegt. Das Risiko
+ * wird dann auf das des RequestBody gesetzt.
+ */
 app.post("/riskByUser", (req,res)=>{
   var body   = req.body;
   for(var i = 0; i<body.trips.length; i++){
@@ -318,6 +338,10 @@ app.get('/find',
 
 app.get('/show',
   (req,res) => res.sendFile(path.resolve(__dirname,'showRoutes', 'showRoutes.html'))
+);
+
+app.get('/warn',
+  (req,res) => res.sendFile(path.resolve(__dirname,'warnSite', 'warn.html'))
 );
 
 /**

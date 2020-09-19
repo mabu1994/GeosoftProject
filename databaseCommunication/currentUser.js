@@ -73,7 +73,7 @@ async function checkForMedical(){
  */
 async function backToLogin(){
   var logout = await logoutUser();
-  window.open("/login", "_self");
+  window.open("/", "_self");
 }
 
 /**

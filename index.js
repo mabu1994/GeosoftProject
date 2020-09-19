@@ -26,7 +26,7 @@ app.use('/registerSide', express.static(path.resolve(__dirname,"registerSide", "
 app.use('/showRoutes', express.static(path.resolve(__dirname, 'showRoutes')));
 app.use('/medicalSide', express.static(path.resolve(__dirname,"medicalSide")));
 
-app.get('/login', (req,res) => { res.sendFile(path.resolve(__dirname,"loginSide","login.html"))});
+app.get('/', (req,res) => { res.sendFile(path.resolve(__dirname,"loginSide","login.html"))});
 
 app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"));});
 

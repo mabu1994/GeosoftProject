@@ -33,21 +33,24 @@
               <li class="nav-item active"><a class="nav-link" href="show">Ihre Routen</a></li>
               <li class="nav-item"><a class="nav-link" href="impressum">Impressum</a></li>
               <li class="nav-item"><a class="nav-link" href="datenschutz">Datenschutz</a></li>
+              <li class="nav-item">
+                <a class="nav-link" onClick=" backToLogin()">
+                  <i class='fas fa-user' style='font-size:18px'></i> <span id="user"></span> Abmelden
+                </a>
+              </li>
           </ul>
         </div>
       </div>
     </nav>
       <h1>Ihre Routen</h1>
-      <div id="#userInfo">
-        <p id="user"></p>
-        <button onClick="backToLogin()">Abmelden</button>
-      </div>
       <table id="mapTable">
         <tr>
           <td><iframe class="ifMap" scrolling="no" src="showRoutes/showMap.html"></iframe></td>
         </tr>
       </table>
-      <div id="stopTable"></div>
+      <div class="table-responsive">
+        <div id="stopTable"></div>
+      </div>
   </body>
   <script src="public/leafletSymbol.js"></script>
   <script src="showRoutes/showTable.js"></script>

@@ -36,18 +36,38 @@
           </div>
         </div>
       </nav>
-        <h1>MyCorona </h1>
-        <div class="padded">
-          <img src="public/pictures/virus_empty.svg" alt="Corona Virus in lovely red" height="100" width="100">
+        <div class="container-fluid">
+          <h1>MyCorona </h1>
+          <div class="padded">
+            <img src="public/pictures/virus_empty.svg" alt="Corona Virus in lovely red" height="100" width="100">
+          </div>
+          <div>
+            <div class="row">
+              <div class="col-xl-5"></div>
+              <div class="col-xl-1">
+                <label for="uname">Benutzername:</label>
+              </div>
+              <div class="col-xl-1">
+                <input type="text" class="form-control-sm" id="uname" name="uname">
+              </div>
+              <div class="col-xl-5"></div>
+            </div>
+            <div class="row">
+              <div class="col-xl-5"></div>
+              <div class="col-xl-1">
+                <label for="kword">Passwort:</label>
+              </div>
+              <div class="col-xl-1">
+                <input type="text" class="form-control-sm" id="kword" name="kword">
+              </div>
+              <div class="col-xl-5"></div>
+            </div>
+          </div>
+          <div class="padded">
+            <button type="button" class="btn btn-dark" value="Login" onClick="searchAcc()">Login</button>
+            <button  class="btn btn-dark" onclick="window.location.href = 'register';">Registrieren</button>
+          </div>
         </div>
-        <div id="loginFields">
-          <label for="uname">Username : </label>
-          <input type="text" id="uname" name="uname"><br><br>
-          <label for="kword">Keyword : </label>
-          <input type="text" id="kword" name="kword"><br><br>
-        </div>
-        <button type="button" value="Login" onClick="searchAcc()">Login</button>
-        <button onclick="window.location.href = 'register';">Registrieren</button>
     </body>
     <script src="loginSide/login.js"></script>
 </html>

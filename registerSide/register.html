@@ -35,19 +35,39 @@
       </div>
     </nav>
   <body>
-    <h1>MyCorona Registration</h1>
-    <p>Erstelle einen Konto</p>
-    <label for="uname">Benutzername : </label>
-    <input type="text" id="uname" name="uname"><br><br>
-    <label for="kword">Passwort : </label>
-    <input type="text" id="kword" name="kword"><br><br>
-    <label for="role">Rolle : </label>
-    <select name="role" id="role">
-      <option value="user">Nutzer</option>
-      <option value="medical">Arzt</option>
-    </select>
-    <br><br>
-    <button type="button" value="Register" onClick="searchFile()">Registrieren</button>
+    <div class="container-fluid">
+      <h1>MyCorona Registration</h1>
+      <p>Erstellen Sie ein Konto</p>
+      <div>
+        <div class="row">
+          <div class="col-xl-5"></div>
+          <div class="col-xl-1">
+            <label for="uname">Benutzername:</label>
+          </div>
+          <div class="col-xl-1">
+            <input type="text" class="form-control-sm" id="uname" name="uname">
+          </div>
+          <div class="col-xl-5"></div>
+        </div>
+        <div class="row">
+          <div class="col-xl-5"></div>
+          <div class="col-xl-1">
+            <label for="kword">Passwort:</label>
+          </div>
+          <div class="col-xl-1">
+            <input type="text" class="form-control-sm" id="kword" name="kword">
+          </div>
+          <div class="col-xl-5"></div>
+        </div>
+        <div class="padded">
+          <label for="role">Rolle : </label>
+          <select name="role" class="form-control-sm" id="role">
+            <option value="user">Nutzer</option>
+            <option value="medical">Arzt</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-dark" value="Register" onClick="searchFile()">Registrieren</button>
+      </div>
   </body>
     <script src="registerSide"></script>
 </html>

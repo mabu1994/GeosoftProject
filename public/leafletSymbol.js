@@ -73,10 +73,10 @@ function iconRisk(trip){
  * @return {String}        Das Select Html Element als String
  */
 function riskSelection(number){
-  var sText = '<select name="risks" route=' + number +' id="risks'+ number +'">' +
+  var sText = '<select name="risks" class="form-control-sm" route=' + number +' id="risks'+ number +'">' +
 	            '<option value="niedrig" ' + colorRisk('niedrig') + '>Niedrig</option>' +
               '<option value="mittel" '  + colorRisk('mittel') + '>Mittel</option>' +
               '<option value="hoch" ' + colorRisk('hoch') + '>Hoch</span></option>' +
-              '</select> <button onClick=saveRisk("risks'+ number+'")>Speichern</button>';
+              '</select> <button class="btn btn-dark btn-sm" onClick=saveRisk("risks'+ number+'")>Speichern</button>';
   return sText;
 }

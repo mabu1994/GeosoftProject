@@ -1,14 +1,31 @@
-#mapContainer{
-  width: 640px;
-  height: 480px;
-  position:relative;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  display:block;
-  padding:10px;
+@media screen and (min-width: 641px) {
+  #mapContainer{
+    width: 608px;
+    height: 454px;
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    display:block;
+    padding:10px;
+  }
 }
+
+@media screen and (max-width: 640px) {
+  #mapContainer{
+    width: 100%;
+    height: 400px;
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    display:block;
+    padding:10px;
+  }
+}
+
 
 #choosenRoute{
   position:relative;
@@ -20,11 +37,24 @@
   padding:10px;
 }
 
+h3, h4{
+  font-size: 1rem;
+}
 
-.ifMap{
-  height:500px;
-  width:650px;
-  border:none;
+@media screen and (min-width: 751px) {
+  .ifMap{
+    height:510px;
+    width:700px;
+    border:none;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .ifMap{
+    height:500px;
+    width:100%;
+    border:none;
+  }
 }
 
 table{
@@ -48,7 +78,7 @@ table.niceTable{
 
 table.niceTable th {
   color: white;
-  background-color: #b30059;
+  background-color: #292b2c;
 }
 
 table.niceTable tr:nth-child(odd) {

@@ -12,15 +12,36 @@ body {
 }
 
 .padded{
-  padding: 10px;
+  padding-top:    10px;
+  padding-bottom: 10px;
 }
 
-#loginFields{
-  text-align: left;
-  position:relative;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  width:20%;
+#impText{
+  font-size: 0.8rem;
+}
+
+@media screen and (min-width: 601px) {
+  .cImg{
+    height:3rem;
+    width:3rem;
+  }
+  #warnHeading{
+    font-size: 2rem;
+  }
+  h1{
+    font-size:2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .cImg{
+    height:1.8rem;
+    width:1.8rem;
+  }
+  #warnHeading{
+    font-size: 1.2rem;
+  }
+  h1{
+    font-size:1.5rem;
+  }
 }

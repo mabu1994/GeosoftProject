@@ -9,18 +9,18 @@
     <script src="databaseCommunication/currentUser.js"></script>
     <script src="../databaseCommunication/riskRoutes.js"></script>
     <script src="leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="public/htmlStyle.css">
-    <link rel="stylesheet" href="public/mapStyle.css">
     <!--Bootstrap-->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!--icons-->
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <!--bootstrap script-->
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="public/htmlStyle.css">
+    <link rel="stylesheet" href="public/mapStyle.css">
   </head>
   <body>
     <!--Navbar-->
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">MyCorona</a>
@@ -34,38 +34,50 @@
               <li class="nav-item active"><a class="nav-link" href="medical">Medizinische Übersicht</a></li>
               <li class="nav-item"><a class="nav-link" href="impressum">Impressum</a></li>
               <li class="nav-item"><a class="nav-link" href="datenschutz">Datenschutz</a></li>
+              <li class="nav-item">
+                <a class="nav-link" onClick=" backToLogin()">
+                  <i class='fas fa-user' style='font-size:18px'></i> <span id="user"></span> Abmelden
+                </a>
+              </li>
           </ul>
         </div>
       </div>
     </nav>
       <h1>Medizinische Übersicht</h1>
-      <div id="#userInfo">
-        <p id="user"></p>
-      </div>
-      <div id="timeAndUser">
-        <form>
-          <label for="username">Nutzer:</label>
-          <input id="username" name="username" type="text"></input>
-          <label for="startdate">Startdatum:</label>
-          <input id="startDate" name="startdate" type="date"></input>
-          <label for="startdate">Enddatum:</label>
-          <input id="endDate"  name="enddate" type="date"></input>
-          <label for="riskUser">Risiko:</label>
-          <select name="riskUser" id="riskUser">'
-            <option value="niedrig">Niedrig</option>
-            <option value="mittel">Mittel</option>
-            <option value="hoch">Hoch</span></option>
-          </select>
-          <button type="button" onClick="quarantine()">Markieren</button>
-        </form>
+      <div class="container-md">
+        <div class="row" id="timeAndUser">
+            <div class="col-lg-3">
+              <label for="username">Nutzer:</label>
+              <input id="username" class="form-control-sm" name="username" type="text"></input>
+            </div>
+            <div class="col-lg-3">
+              <label for="startdate">Startdatum:</label>
+              <input id="startDate" class="form-control-sm" name="startdate" type="date"></input>
+            </div>
+            <div class="col-lg-3">
+              <label for="enddate">Enddatum:</label>
+              <input id="endDate" class="form-control-sm" name="enddate" type="date"></input>
+            </div>
+            <div class="col-lg-2">
+              <label for="riskUser">Risiko:</label>
+              <select class="form-control-sm" name="riskUser" id="riskUser">'
+                <option value="niedrig">Niedrig</option>
+                <option value="mittel">Mittel</option>
+                <option value="hoch">Hoch</span></option>
+              </select>
+            </div>
+            <div class="col-lg-1">
+              <button class="btn btn-dark" type="button" onClick="quarantine()">Markieren</button>
+            </div>
+        </div>
       </div>
       <table id="mapTable">
         <tr>
           <td><iframe id="medMap" class="ifMap" scrolling="no" src="medicalSide/medicalMap.html"></iframe></td>
         </tr>
       </table>
-      <button onClick="refreshRoutes()">&#128472;</button>
-      <div id="stopTable"></div>
+      <button class="btn btn-dark" onClick="refreshRoutes()">&#128472;</button>
+      <div class="table-responsive" id="stopTable"></div>
   </body>
   <script src="public/leafletSymbol.js"></script>
   <script src="medicalSide/medicalTable.js"></script>

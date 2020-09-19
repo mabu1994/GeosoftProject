@@ -28,7 +28,7 @@ function getUser(){
 async function displayUser(){
   var cUser = await getUser();
   console.log(cUser);
-  $("#user").html("Sie sind angemeldet als: " + cUser[0]._id);
+  $("#user").html(cUser[0]._id);
 }
 
 

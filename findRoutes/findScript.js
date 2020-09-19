@@ -109,7 +109,7 @@ function showStops(){
         var lineName = stops[i].transports[j].name + " " + stops[i].transports[j].headsign;
         var k = (1+i);
         console.log(k);
-        var lineButton = "<button id=" + k + j + " stop="+ i +" onClick='chooseLine(" + k + j + ")'>" + lineName + "</button><br>";
+        var lineButton = "<button class='btn btn-dark btn-sm' id=" + k + j + " stop="+ i +" onClick='chooseLine(" + k + j + ")'>" + lineName + "</button><br>";
         //Html Button wird als Rohtext erzeugt
         stopLines += lineButton;
       }

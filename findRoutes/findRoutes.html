@@ -36,20 +36,28 @@
               <li class="nav-item"><a class="nav-link" href="show">Ihre Routen</a></li>
               <li class="nav-item"><a class="nav-link" href="impressum">Impressum</a></li>
               <li class="nav-item"><a class="nav-link" href="datenschutz">Datenschutz</a></li>
+              <li class="nav-item">
+                <a class="nav-link" onClick=" backToLogin()">
+                  <i class='fas fa-user' style='font-size:18px'></i> <span id="user"></span> Abmelden
+                </a>
+              </li>
           </ul>
         </div>
       </div>
     </nav>
     <h1>Wählen Sie ihre Route</h1>
-    <div id="#userInfo">
-      <p id="user"></p>
-    </div>
-    <div id="choosenRoute">
-      <p id="selection">Kleiner lustiger Testspruch</p>
-      <input id="inputDate" type="date" min="2020-01-01">
-      <input id="inputTime" type="time">
-      <button onClick="getLocation()">Lokalisieren</button>
-      <button onClick="sendRoute()">Speichern</button>
+    <div id="choosenRoute" class="row">
+      <div class="col-md-4, centered">
+        <p id="selection"></p>
+      </div>
+      <div class="col-md-4, centered">
+        <input class="form-control-sm" id="inputDate" type="date" min="2020-01-01">
+        <input class="form-control-sm" id="inputTime" type="time">
+      </div>
+      <div class="col-md-4, padded">
+        <button class="btn btn-dark" onClick="getLocation()">Lokalisieren</button>
+        <button class="btn btn-dark" onClick="sendRoute()">Speichern</button>
+      </div>
     </div>
 
     <div id="mapContainer"></div>

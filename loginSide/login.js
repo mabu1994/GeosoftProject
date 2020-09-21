@@ -8,11 +8,12 @@
  */
 async function searchAcc(){
     let input = document.getElementById("uname").value;
+    let pword = $("#kword").val();
     try{
-       let re = await searchRequest(input);
+       let re = await confirmRequest(input, pword);
        console.log(re);
        if(re==0){
-           window.alert("Unter diesem Benutzernamen ist kein Konto registriert!")
+           window.alert("Der eingebene Benutzername oder das Passwort ist falsch. Bitte versuchen sie es erneut.")
        }
        else{
         var logoutU = await logoutUser();

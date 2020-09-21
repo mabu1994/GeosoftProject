@@ -10,53 +10,62 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+
+/**
+ * Alle Order und Dokument, die die Expressapp benutzt
+ */
+
+ //Externe Module
 app.use('/jquery', express.static(path.resolve(__dirname, 'node_modules', 'jquery')));
 app.use('/node_modules', express.static(path.resolve(__dirname , 'node_modules')));
+app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
+//Interne Module
 app.use('/databaseCommunication', express.static(path.resolve(__dirname, 'databaseCommunication')));
 app.use('/database', express.static(path.resolve(__dirname, 'database')));
 app.use('/findRoutes', express.static(path.resolve(__dirname,'findRoutes')));
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
-app.use('/leaflet', express.static(path.resolve(__dirname, 'node_modules', 'leaflet')));
 app.use('/loginSide', express.static(path.resolve(__dirname, 'loginSide')));
 app.use('/impressumSide', express.static(path.resolve(__dirname, 'impressumSide')));
 app.use('/config', express.static(path.resolve(__dirname, 'config.js')));//Sicherheitsbedenken!!!!
 app.use('/warnSite', express.static(path.resolve(__dirname, 'warnSite')));
-
 app.use('/registerSide', express.static(path.resolve(__dirname,"registerSide", "register.js")));
 app.use('/showRoutes', express.static(path.resolve(__dirname, 'showRoutes')));
 app.use('/medicalSide', express.static(path.resolve(__dirname,"medicalSide")));
 
-app.get('/', (req,res) => { res.sendFile(path.resolve(__dirname,"loginSide","login.html"))});
-
+/**
+ * Alle app.get Befehle die eine HTML Datei senden senden
+ */
+app.get('/', (req,res) => { res.sendFile(path.resolve(__dirname,"loginSide","login.html"));});
 app.get('/register', (req,res) => {res.sendFile(path.resolve(__dirname,"registerSide","register.html"));});
-
 app.get('/medical', (req,res) => {res.sendFile(path.resolve(__dirname,"medicalSide","medicalSide.html"));});
-
 app.get('/impressum', (req,res)=> {res.sendFile(path.resolve(__dirname,"impressumSide","impressum.html"));});
-
 app.get('/datenschutz', (req,res)=> {res.sendFile(path.resolve(__dirname,"impressumSide","datenschutz.html"));});
+app.get('/find', (req,res) => res.sendFile(path.resolve(__dirname,'findRoutes', 'findRoutes.html')));
+app.get('/show', (req,res) => res.sendFile(path.resolve(__dirname,'showRoutes', 'showRoutes.html')));
+app.get('/warn', (req,res) => res.sendFile(path.resolve(__dirname,'warnSite', 'warn.html')));
+
 /**
  * Ein paar Testdatensätze für die users collection
  */
 var startusers = [
-  {"_id":"Fabian", "role":"admin", "trips":[
+  {"_id":"Fabian", "password":"123", "role":"admin", "trips":[
     {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},
     {"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},
     {"line":"Testfahrt T2", "time":new Date()}
   ],
    "active":false},
-  {"_id":"Fabian2", "role":"user", "trips":[
+  {"_id":"Fabian2", "password":"123", "role":"user", "trips":[
     {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},
     {"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},
     {"line":"Testfahrt T2", "time":new Date()}
     ],
    "active":false},
-   {"_id":"Fabian3", "role":"user", "trips":[
+   {"_id":"Fabian3", "password":"123", "role":"user", "trips":[
      {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")}
      ],
     "active":false},
-  {"_id":"Max", "role":"admin", "trips":[], "active":false},
-  {"_id":"Drosten", "role":"medical", "trips":[], "active":false}
+  {"_id":"Max", "password":"123", "role":"admin", "trips":[], "active":false},
+  {"_id":"Drosten", "password":"123", "role":"medical", "trips":[], "active":false}
 ];
 
 /**
@@ -112,7 +121,7 @@ function createCollection(db, cName, cVal, cData){
             db.collection(cName).insertMany(cData);
           }
           else{
-            console.log('No new user setup');
+            console.log('No new '+ cName + ' setup');
             db.collection(cName).deleteMany();//Cleans the database
             db.command({collMod: cName,validator:cVal});//Refresh validator
             db.collection(cName).insertMany(cData);
@@ -127,6 +136,12 @@ function createCollection(db, cName, cVal, cData){
 
 connectMongoDB();
 
+
+/**
+ * Hier folgen alle app.get/post, die in irgendeiner Form mit der Datenbank
+ * kommunizieren
+ */
+
 /**
  * Neuen User erstellen
  *
@@ -136,6 +151,7 @@ app.post("/users", (req,res)=>{
   console.log(JSON.stringify(req.body));
   app.locals.db.collection('users').insertOne({
     _id:    req.body._id,
+    password: req.body.password,
     role:   req.body.role,
     trips:  [],
     active: false
@@ -146,8 +162,6 @@ app.post("/users", (req,res)=>{
     res.json(result);
   });
 });
-
-
 
 /**
  * Die app nihmt den request body entgegen und speichert ihn als Objekt
@@ -182,6 +196,26 @@ app.get("/search",(req,res) => {
 
   console.log(req.query);
   app.locals.db.collection('users').find({_id:id}).toArray((error,result)=>{
+      if(error){
+          console.dir(error);
+      }
+      res.send(result);
+  });
+});
+
+
+/**
+* Eine get Anfrage mit einer id im Query auf "/confirm" gibt den enstrechenden
+* Datensatz mit angefragten Namen und Passwort aus der users Collection als Array
+* zurück (Leer falls es diesen nicht gibt). 
+*/
+app.get("/confirm", (req,res) => {
+
+  let id = req.query.id;
+  let pword = req.query.password;
+
+  console.log(req.query);
+  app.locals.db.collection('users').find({_id:id, password:pword}).toArray((error,result)=>{
       if(error){
           console.dir(error);
       }
@@ -330,18 +364,6 @@ app.get("/logoutActive",
         console.log("Logging out active user");
         res.send("User is logged out.");
   }
-);
-
-app.get('/find',
-  (req,res) => res.sendFile(path.resolve(__dirname,'findRoutes', 'findRoutes.html'))
-);
-
-app.get('/show',
-  (req,res) => res.sendFile(path.resolve(__dirname,'showRoutes', 'showRoutes.html'))
-);
-
-app.get('/warn',
-  (req,res) => res.sendFile(path.resolve(__dirname,'warnSite', 'warn.html'))
 );
 
 /**

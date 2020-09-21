@@ -1,8 +1,16 @@
 showTable();
 
+
+
+/**
+ * showTable - Eine Funktion, die eine Übersichtstabelle mit allen Risikofahrten
+ * für den aktiven User als ROhtext erzeugt. Und diesen dann in das HTML-Element
+ * mit der Id "warntable" lädt.
+ *
+ */
 async function showTable(){
   var trips = await getUserTrips();
-  trips.sort(function(a,b){return (new Date(a._id.time) - new Date(b._id.time));});
+  trips.sort(function(a,b){return (new Date(a._id.time) - new Date(b._id.time));});//Datumsortierung
   console.log(trips);
   var tText = "<table class='niceTable'><tr><th>Linie</th><th>Zeit</th><th>Zustieg</th><th>Risiko</th></tr>";
   //Kopfzeile der Tabelle

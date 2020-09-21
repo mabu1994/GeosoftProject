@@ -47,8 +47,9 @@ function createStop(trip, number){
     "<b>Zugestiegen</b>: " + trip.stop.name + "<br>" +
     "<b>Risiko</b>: " + riskSelection(number) + "</span>";
 
+    //Der Marker wird um den Halt im Popup erweitert und das Icon wird ggf. angepasst
     var existMarker = stopMarkers.getLayer(checkForStop(trip)[1]);
-    console.log(existMarker.getIcon());
+    existMarker.setIcon(compareRisk(existMarker.getIcon().options.className, trip.risk));
     existMarker.setPopupContent(existMarker.getPopup().getContent() + secondStop);
     existMarker.on('popupopen', function(e){//Damit das korrekte Risiko im select angezeigt wird.
       $("#risks" + number).val(trip.risk);

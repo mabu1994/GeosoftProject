@@ -43,7 +43,9 @@ function createStop(trip){
     "<b>Zugestiegen</b>: " + trip.stop.name + "<br>" +
     "<b>Risiko</b>: " + "<span "+ colorRisk(trip.risk)+">" + trip.risk + "</span>";
 
+    //Der Marker wird um den Halt im Popup erweitert und das Icon wird ggf. angepasst
     var existMarker = stopMarkers.getLayer(checkForStop(trip)[1]);
+    existMarker.setIcon(compareRisk(existMarker.getIcon().options.className, trip.risk));
     console.log(existMarker.getIcon());
     existMarker.setPopupContent(existMarker.getPopup().getContent() + secondStop);
   }

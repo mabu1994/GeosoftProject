@@ -14,7 +14,7 @@ displayStops();
 
 
 /**
- * displayStops - Eine Funktion, die die Fahrten des aktuellen Users auf einer Leaaflet
+ * displayStops - Eine Funktion, die die Fahrten des aktuellen Users auf einer Leaflet
  * Karte zeigt. Die Halte erhalten Popups mit der entsprechenden Fahrt.
  */
 async function displayStops(){

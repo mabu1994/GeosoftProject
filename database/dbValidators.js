@@ -8,8 +8,12 @@
 const userval = {
   $jsonSchema:{
     bsonType:"object",
-    required:["_id", "role", "trips", "active"],//Passwörter können hier noch hinzugefügt werden
+    required:["_id", "password", "role", "trips", "active"],
     properties:{
+        password:{
+          bsonType:"string",
+          description: "Must be a String and is required."
+        },
         role:{
           enum:["admin","user","medical"],
           description: "can only be one of the enum values and is required"

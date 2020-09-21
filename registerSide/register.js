@@ -5,10 +5,12 @@
  */
 async function addUser(){
     let userName = document.getElementById("uname").value;
+    let password = $("#kword").val();
     let userRole = $("#role").val();
     var newuser = {
         _id: userName,
-        role: userRole,
+        password: password,
+        role: userRole
     };
     try{
         ajaxPost("/users",newuser);

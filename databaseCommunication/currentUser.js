@@ -86,3 +86,15 @@ async function backToLogin(){
 function searchRequest(input){
  return ajaxGet("/search?id="+input);
 }
+
+/**
+ * confirmRequest - Funktion, die eine ajax Postanfrage an /confirm schickt, um
+ * ein user Datensatz zuerhalten, der einen bestimmten Namen und Passwort hat.
+ *
+ * @param  {String} input Die id eines Users als String
+ * @param  {String} pword Das Passwort eines Users als String
+ * @return {object}       Datensatz aus der User Collection mit der entsprechenden Id
+ */
+function confirmRequest(input, pword){
+ return ajaxGet("/confirm?id=" + input + "&password=" + pword);
+}

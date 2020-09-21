@@ -16,6 +16,11 @@ body {
   padding-bottom: 10px;
 }
 
+.dropdown{
+  height:1.5rem;
+  width: 1.5rem;
+}
+
 #impText{
   font-size: 0.8rem;
 }

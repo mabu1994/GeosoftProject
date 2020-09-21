@@ -8,8 +8,6 @@
     <script src="databaseCommunication/ajaxFunctions.js"></script>
     <script src="databaseCommunication/currentUser.js"></script>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!--icons-->
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <!--bootstrap script-->
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="leaflet/dist/leaflet.js"></script>
@@ -24,7 +22,7 @@
           <a class="navbar-brand" href="#">MyCorona</a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <i class='fas fa-virus' style='font-size:36px'></i>
+          <img class="dropdown" src="public/pictures/virus_white.svg">
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
@@ -35,7 +33,7 @@
               <li class="nav-item"><a class="nav-link" href="datenschutz">Datenschutz</a></li>
               <li class="nav-item">
                 <a class="nav-link" onClick=" backToLogin()">
-                  <i class='fas fa-user' style='font-size:18px'></i> <span id="user"></span> Abmelden
+                  &#x1F464; <span id="user"></span> Abmelden
                 </a>
               </li>
           </ul>

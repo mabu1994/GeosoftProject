@@ -54,13 +54,13 @@ var startusers = [
     {"line":"Testfahrt T2", "time":new Date()}
   ],
    "active":false},
-  {"_id":"Fabian2", "password":"123", "role":"user", "trips":[
+  {"_id":"testuser0", "password":"123", "role":"user", "trips":[
     {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")},
     {"line":"Die 18 bis nach Istanbul", "time": new Date("2020-07-23T10:23:00.000Z")},
     {"line":"Testfahrt T2", "time":new Date()}
     ],
    "active":false},
-   {"_id":"Fabian3", "password":"123", "role":"user", "trips":[
+   {"_id":"testuser1", "password":"123", "role":"user", "trips":[
      {"line":"N80", "time": new Date("2020-08-05T00:00:00.000Z")}
      ],
     "active":false},
@@ -207,7 +207,7 @@ app.get("/search",(req,res) => {
 /**
 * Eine get Anfrage mit einer id im Query auf "/confirm" gibt den enstrechenden
 * Datensatz mit angefragten Namen und Passwort aus der users Collection als Array
-* zurück (Leer falls es diesen nicht gibt). 
+* zurück (Leer falls es diesen nicht gibt).
 */
 app.get("/confirm", (req,res) => {
 

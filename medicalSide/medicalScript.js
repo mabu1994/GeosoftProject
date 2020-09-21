@@ -20,6 +20,7 @@ displayStops();
  */
 async function displayStops(){
   var trips = await getAllRoutes();//Die Fahrten des aktuellen users werden geladen.
+    trips.sort(function(a,b){return (new Date(a._id.time) - new Date(b._id.time));});
   console.log(trips);
   for(var i = 0; i < trips.length; i++){
     createStop(trips[i], i);//Popup und Marker werden erstellt
@@ -39,16 +40,31 @@ async function displayStops(){
  * @param  {route object} trip Eintrag aus der Routes Datenbank
  */
 function createStop(trip, number){
-  console.log(trip.risk);
   var stopIcon = iconRisk(trip);
-  var cTrip = L.marker(trip.stop.location, {icon: stopIcon}).addTo(stopMarkers);
-  cTrip.bindPopup(
-    "<h4>" + trip._id.line + "</h4><br>" +
+  if(checkForStop(trip)[0] == 1){
+    var secondStop = "<h4>" + trip._id.line + "</h4><br>" +
     (new Date(trip._id.time)).toLocaleString('de-DE',{timeZone: "UTC"}) + "<br>" +
     "<b>Zugestiegen</b>: " + trip.stop.name + "<br>" +
-    "<b>Risiko</b>: " + riskSelection(number) + "</span>"
-  );
-  cTrip.on('popupopen', function(e){
-    $("#risks" + number).val(trip.risk);
-  });
+    "<b>Risiko</b>: " + riskSelection(number) + "</span>";
+
+    //Der Marker wird um den Halt im Popup erweitert und das Icon wird ggf. angepasst
+    var existMarker = stopMarkers.getLayer(checkForStop(trip)[1]);
+    existMarker.setIcon(compareRisk(existMarker.getIcon().options.className, trip.risk));
+    existMarker.setPopupContent(existMarker.getPopup().getContent() + secondStop);
+    existMarker.on('popupopen', function(e){//Damit das korrekte Risiko im select angezeigt wird.
+      $("#risks" + number).val(trip.risk);
+    });
+  }
+  else{
+    var cTrip = L.marker(trip.stop.location, {icon: stopIcon}).addTo(stopMarkers);
+    cTrip.bindPopup(
+      "<h4>" + trip._id.line + "</h4><br>" +
+      (new Date(trip._id.time)).toLocaleString('de-DE',{timeZone: "UTC"}) + "<br>" +
+      "<b>Zugestiegen</b>: " + trip.stop.name + "<br>" +
+      "<b>Risiko</b>: " + riskSelection(number) + "</span>"
+    );
+    cTrip.on('popupopen', function(e){//Damit das korrekte Risiko im select angezeigt wird.
+      $("#risks" + number).val(trip.risk);
+    });
+  }
 }

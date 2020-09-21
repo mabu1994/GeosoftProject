@@ -17,4 +17,6 @@ Die Startseite der Webside ist über localhost:3000 zu erreichen. Es stehen Test
 
 Augenmerk: Die folgende Anforderung wurde an die Webside gestellt "Ein Nutzer kann eine aktuelle Abfahrt an einer Haltestelle vor Ort auswählen. Für diese wird dann im Server markiert, dass sie vom Nutzer genommen wurde". In unserer Version ist es dem Nutzer möglich auch vergangene Fahrten zu speichern. Wir begründen dies mit größerer Nutzerfreundlichkeit, so muss der Nutzer nicht jedes mal bevor er in den Bus steigt die Fahrt in der App auswählen.
 
+Für den App Start gebt ihr einfach "npm install" und "npm start" ein. 
+
 Unser docker-image heißt gaffko/mycorona2. Wenn die docker-compose.yml heruntergelanden wird, kann "docker-compose up" ausgeführt werden. Allerdings funktioniert das integrieterte Mongo image nicht. Woran das liegt, wissen wir leider nicht :/

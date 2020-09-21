@@ -1,2 +1,20 @@
 Willkommen zu Maxs und Fabians lustigen kleinem Geosoftwareabenteuer
 Have Fun :)
+
+Initialisieren: Zum funktionsmäßigen Gebrauch der Webside muss ein HERE-API-Key verwendet werden.
+                Dazu muss in der config.js im Hauptverzeichnis euer HERE-API-Key eingefügt werden.
+                 
+              
+Die Startseite der Webside ist über localhost:3000 zu erreichen. 
+Es stehen Testdatensätze zur Verfügung, Benutzname(User): testuser1, testuser2 Passwort: 123 Benutzername(Arzt): Drosten Passwort: 123
+Man kann sich entweder mit diesen einloggen oder über den Button "Registrieren" auf die Registratiosnseite gelangen um ein neues Konto zu erstellen.
+Die Erstellung von zwei Konten mit dem gleichen Nutzernamen ist nicht möglich.
+Über den Login als User wird man auf die Seite findRoutes (/find) geleitet. Hier können die Routen über Zeiteingabe und Auswahl der Haltestelle auf der Karte gewählt werden. Die Auswahl der Haltestellen wird über den Button "Lokalisieren" vereinfacht, Standort des Users und nahe Haltestellen werden angezeigt. Per Doppelklick auf die Karte kann ein Standort manuell gewählt werden. Über den Button "Speichern" wird die gewählte Fahrt dann vermerkt. 
+Über "Ihre Routen" in der Navigationsleiste gelangt man zur Seite showRoutes (/show). Hier können die gespeicherten Routen und das jeweilige Risiko der Fahrten des eingeloggten Users eingesehen werden.
+
+
+Über den Login als Arzt wird man auf die Seite medicalSide (/medical) geleitet. Im Textfeld "Nutzer" kann der Nutzername eines Users eingegeben werden und alle seine Fahrten für einen bestimmten Zeitraum als Risikofahrt vermerkt werden. Über die Karte kann das Risiko für einzelne Fahrten geändert werden, ebenso über die Tabelle. Der "Refresh"- Button aktualisiert die vorgenommenen Änderungen.
+
+Der "Zurück"-Link in der Navigationsleiste führt immer zur zuletzt aufgerufenen Seite.
+
+Datenschutz besteht leider nicht. Passwörter werden unverschlüsselt gespeichert.

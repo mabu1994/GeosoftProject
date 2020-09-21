@@ -1,4 +1,3 @@
-
 /**
  * Die Leaflet Karte wird initialisiert und mit einer Leaflet tile-Karte versehen.
  */
@@ -11,17 +10,19 @@ attribution: 'Leaflet, OpenStreetMapContributors',
 var stopMarkers = L.featureGroup();
 
 displayStops();
-
+console.log(stopMarkers);
 
 /**
  * displayStops - Eine Funktion, die die Fahrten des aktuellen Users auf einer Leaflet
  * Karte zeigt. Die Halte erhalten Popups mit der entsprechenden Fahrt.
  */
 async function displayStops(){
-  var trips = await getUserTrips();//Die Fahrten des aktuellen users werden geladen.
+  var currentStops = [],
+      trips = await getUserTrips();//Die Fahrten des aktuellen users werden geladen.
   console.log(trips);
   for(var i = 0; i < trips.length; i++){
-    createStop(trips[i]);//Popup und Marker werden erstellt
+    createStop(trips[i], currentStops);//Popup und Marker werden erstellt
+    currentStops[i] = trips[i];
     // !-- Doppelte Stops müssen noch berücksichtig --!
   }
   stopMarkers.addTo(map);
@@ -36,11 +37,23 @@ async function displayStops(){
  */
 function createStop(trip){
   var stopIcon = iconRisk(trip);
-  var cTrip = L.marker(trip.stop.location, {icon: stopIcon}).addTo(stopMarkers);
-  cTrip.bindPopup(
-    "<h4>" + trip._id.line + "</h4><br>" +
+  if(checkForStop(trip)[0] == 1){
+    var secondStop = "<br><h4>" + trip._id.line + "</h4><br>" +
     (new Date(trip._id.time)).toLocaleString('de-DE',{timeZone: "UTC"}) + "<br>" +
     "<b>Zugestiegen</b>: " + trip.stop.name + "<br>" +
-    "<b>Risiko</b>: " + "<span "+ colorRisk(trip.risk)+">" + trip.risk + "</span>"
-  );
+    "<b>Risiko</b>: " + "<span "+ colorRisk(trip.risk)+">" + trip.risk + "</span>";
+
+    var existMarker = stopMarkers.getLayer(checkForStop(trip)[1]);
+    console.log(existMarker.getIcon());
+    existMarker.setPopupContent(existMarker.getPopup().getContent() + secondStop);
+  }
+  else{
+    var cTrip = L.marker(trip.stop.location, {icon: stopIcon}).addTo(stopMarkers);
+    cTrip.bindPopup(
+      "<h4>" + trip._id.line + "</h4><br>" +
+      (new Date(trip._id.time)).toLocaleString('de-DE',{timeZone: "UTC"}) + "<br>" +
+      "<b>Zugestiegen</b>: " + trip.stop.name + "<br>" +
+      "<b>Risiko</b>: " + "<span "+ colorRisk(trip.risk)+">" + trip.risk + "</span>"
+    );
+  }
 }

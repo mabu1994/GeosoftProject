@@ -80,3 +80,24 @@ function riskSelection(number){
               '</select> <button class="btn btn-dark btn-sm" onClick=saveRisk("risks'+ number+'")>Speichern</button>';
   return sText;
 }
+
+
+/**
+ * checkForStop - Eine Funktion, die ein Objekt der routes Collection entgegennihmt
+ * und bestimmt, ob ein Stop mit den selben Koordinaten schon einer Markergruppe "stopMarkers" existiert.
+ *
+ * @param  {object} trip Das auszuwertende Objekt in der Form der routes collection 
+ * @return {array}      Ein Array mit 0 oder 1 als Wert, falls der Stop gefunden
+ *                     wurde und die Layerid des entsprechenden Layers in Stopmarkers an zweiter Stelle
+ */
+function checkForStop(trip){
+  var output = [0, null];
+  stopMarkers.eachLayer(function(layer){
+    var markerPos = layer.getLatLng();
+    if(markerPos.lat == trip.stop.location.lat && markerPos.lon == trip.stop.location.lon){
+      output[0] = 1;
+      output[1] = stopMarkers.getLayerId(layer);
+    }
+  });
+  return output;
+}

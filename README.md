@@ -27,10 +27,7 @@ Nutzung:        Das Starten des Servers läuft über den Aufruf von npm start
                 Über den Login als User wird man auf die Seite findRoutes (/find) geleitet. Hier können die Routen über Zeiteingabe und Auswahl der Haltestelle auf der Karte gewählt werden. Die Auswahl der Haltestellen wird über den Button "Lokalisieren" vereinfacht, Standort des Users und nahe Haltestellen werden angezeigt. Per Doppelklick auf die Karte kann ein Standort manuell gewählt werden. Über den Button "Speichern" wird die gewählte Fahrt dann vermerkt. 
                 Über "Ihre Routen" in der Navigationsleiste gelangt man zur Seite showRoutes (/show). Hier können die gespeicherten Routen und das jeweilige Risiko der Fahrten des eingeloggten Users eingesehen werden.
 
-
-                Über den Login als Arzt wird man auf die Seite medicalSide (/medical) geleitet. Im Textfeld "Nutzer" kann der Nutzername eines Users eingegeben werden und alle seine Fahrten für einen bestimmten Zeitraum als Risikofahrt vermerkt werden. Über die Karte kann das Risiko für einzelne Fahrten geändert werden, ebenso über die Tabelle. Der "Refresh"- Button aktualisiert die vorgenommenen Änderungen.
-
-                Der "Zurück"-Link in der Navigationsleiste führt immer zur zuletzt aufgerufenen Seite.
-
-                Datenschutz besteht leider nicht. Passwörter werden unverschlüsselt gespeichert.
+Über den Login als Arzt wird man auf die Seite medicalSide (/medical) geleitet. Im Textfeld "Nutzer" kann der Nutzername eines Users eingegeben werden und alle seine Fahrten für einen bestimmten Zeitraum als Risikofahrt vermerkt werden. Über die Karte kann das Risiko für einzelne Fahrten geändert werden, ebenso über die Tabelle. Der "Refresh"- Button aktualisiert die vorgenommenen Änderungen.
+Der "Zurück"-Link in der Navigationsleiste führt immer zur zuletzt aufgerufenen Seite.
+Datenschutz besteht leider nicht. Passwörter werden unverschlüsselt gespeichert.
           
